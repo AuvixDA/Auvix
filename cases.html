@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Кейсы — AUVIX Digital Agency</title>
+<meta name="description" content="Реальные результаты — кейсы AUVIX по SMM, TikTok и веб-разработке.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geologica:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --white: #f0ede8;
+    --gray: #5a5a5a;
+    --accent: #c8f060;
+    --border: #222222;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Geologica', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled {
+    border-color: var(--border);
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+
+  .nav-back {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--accent); }
+
+  /* SCROLL PROGRESS */
+  .scroll-line {
+    position: fixed; top: 0; left: 0;
+    height: 2px; width: 0;
+    background: var(--accent);
+    z-index: 200;
+    will-change: width;
+  }
+
+  /* BACK TO TOP */
+  .back-to-top {
+    position: fixed; bottom: 24px; right: 16px;
+    width: 40px; height: 40px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 90; opacity: 0;
+    transition: opacity 0.3s, background 0.2s;
+    text-decoration: none;
+  }
+  .back-to-top.visible { opacity: 1; }
+  .back-to-top:hover { background: var(--accent); color: #0a0a0a; }
+
+  /* HERO */
+  #hero {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 20px 64px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,240,96,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,240,96,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridFade 3s ease forwards;
+  }
+  @keyframes gridFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px;
+    opacity: 0; animation: fadeUp 0.8s 0.3s ease forwards;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 14vw, 120px);
+    line-height: 0.92; letter-spacing: -0.01em;
+    opacity: 0; animation: fadeUp 0.8s 0.5s ease forwards;
+  }
+  .hero-title .accent { color: var(--accent); }
+  .hero-sub {
+    font-size: 14px; color: var(--gray); line-height: 1.7; margin-top: 24px;
+    opacity: 0; animation: fadeUp 0.8s 0.7s ease forwards;
+    max-width: 480px;
+  }
+
+  /* SECTION */
+  .case-section {
+    padding: 64px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 40px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--accent);
+  }
+
+  /* CASE HEADER */
+  .case-cat {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+  }
+  .case-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 9vw, 72px);
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+  .case-desc {
+    font-size: 14px; color: var(--gray); line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+  .stat-block {
+    background: var(--bg3);
+    padding: 24px 18px;
+  }
+  .stat-block.wide {
+    grid-column: span 2;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.4;
+  }
+  .stat-growth {
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* IMAGE */
+  .case-img {
+    width: 100%;
+    display: block;
+    margin-bottom: 2px;
+    /* No crop — full image shown */
+    object-fit: contain;
+    background: var(--bg2);
+  }
+
+  /* WHAT WAS DONE */
+  .done-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 2px;
+  }
+  .done-item {
+    background: var(--bg2);
+    padding: 18px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-left: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .done-item:hover { border-left-color: var(--accent); }
+  .done-arrow {
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 14px;
+  }
+  .done-text {
+    font-size: 14px;
+    color: var(--white);
+    line-height: 1.6;
+  }
+  .done-sub {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+
+  /* PROBLEM / SOLUTION BLOCK */
+  .ps-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+  .ps-block {
+    background: var(--bg2);
+    padding: 24px 18px;
+  }
+  .ps-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 14px;
+  }
+  .ps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ps-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .ps-icon { color: var(--accent); flex-shrink: 0; font-size: 13px; margin-top: 2px; }
+  .ps-text { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .ps-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 2px; }
+
+  /* SITE PREVIEW */
+  .site-preview {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 2px;
+  }
+  .site-preview-bar {
+    background: var(--bg3);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+  .url-bar {
+    flex: 1;
+    background: var(--bg);
+    border-radius: 2px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 0.03em;
+  }
+  .site-preview img {
+    width: 100%;
+    display: block;
+    object-fit: contain;
+    background: #111;
+  }
+
+  /* CTA block */
+  .cta-block {
+    background: var(--bg3);
+    border-left: 2px solid var(--accent);
+    padding: 24px 20px;
+    margin-top: 2px;
+  }
+  .cta-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  .cta-text {
+    font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 6px;
+  }
+  .cta-sub {
+    font-size: 13px; color: var(--gray); line-height: 1.7; margin-bottom: 18px;
+  }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: #0a0a0a;
+    padding: 13px 24px;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    font-family: 'Geologica', sans-serif;
+    transition: box-shadow 0.2s;
+  }
+  .cta-btn:hover { box-shadow: 0 8px 32px rgba(200,240,96,0.25); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 20px;
+  }
+
+  /* REVEAL animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-line" id="scrollLine"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="logo" href="index.html"><span>A</span>UVIX</a>
+  <a class="nav-back" href="index.html">← На главную</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <p class="hero-tag">AUVIX · Портфолио</p>
+  <h1 class="hero-title">Реальные<br><span class="accent">результаты</span></h1>
+  <p class="hero-sub">Три кейса — от TikTok-аккаунта с нуля до сайта с Telegram-ботом. Цифры настоящие, описание честное.</p>
+</section>
+
+<!-- ===== CASE 1 — GeraDog ===== -->
+<section class="case-section" id="geradog">
+  <div class="section-label reveal">01 — TikTok</div>
+
+  <div class="reveal">
+    <div class="case-cat">TikTok · Pets · Органический рост</div>
+    <h2 class="case-title">GeraDog —<br>TikTok с нуля</h2>
+    <p class="case-desc">Аккаунт об амстаффе Гере — воспитание, уход и жизнь с собакой. Создал с нуля, вёл 2 месяца без рекламного бюджета. Ставка на образовательный и экспертный контент для владельцев.</p>
+  </div>
+
+  <!-- Обложка кейса -->
+  <img class="case-img reveal" src="1000000287.jpg" alt="GeraDog — 800K просмотров за 60 дней">
+
+  <!-- Статы -->
+  <div class="stats-grid reveal" style="margin-top:2px;">
+    <div class="stat-block">
+      <div class="stat-num">800K</div>
+      <div class="stat-label">просмотров</div>
+      <div class="stat-growth">+688%</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">31K</div>
+      <div class="stat-label">лайков</div>
+      <div class="stat-growth">+535%</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">5 700</div>
+      <div class="stat-label">репостов</div>
+      <div class="stat-growth">+1861%</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">2 500+</div>
+      <div class="stat-label">новых подписчиков</div>
+      <div class="stat-growth">органически</div>
+    </div>
+  </div>
+
+  <!-- Слайд с результатами -->
+  <img class="case-img reveal" src="1000000289.jpg" alt="Результаты за 60 дней — GeraDog">
+
+  <!-- Что было сделано -->
+  <div class="done-list reveal">
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Анализ ниши и конкурентов</div>
+        <div class="done-sub">Изучил популярные форматы в нише pets, нашёл темы с высоким потенциалом охвата</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Разработка контент-стратегии</div>
+        <div class="done-sub">Позиционирование — экспертный аккаунт для владельцев собак, упор на полезность</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Создание и монтаж видео</div>
+        <div class="done-sub">Сценарий, съёмка, монтаж, заголовки и описания — всё под ключ</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Публикация и аналитика</div>
+        <div class="done-sub">Контент регулярно попадал в рекомендации и активно распространялся через репосты</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Слайд «Что было сделано» -->
+  <img class="case-img reveal" style="margin-top:2px;" src="1000000288.jpg" alt="Что было сделано — GeraDog">
+</section>
+
+<!-- ===== CASE 2 — Опера ===== -->
+<section class="case-section" id="opera">
+  <div class="section-label reveal">02 — SMM</div>
+
+  <div class="reveal">
+    <div class="case-cat">Instagram · Telegram · ВКонтакте · Офлайн-интеграция</div>
+    <h2 class="case-title">Karaoke-бар<br>«Опера»</h2>
+    <p class="case-desc">Заведение теряло посетителей в будние дни — основной поток шёл только в выходные. Задача: выстроить системное привлечение через соцсети и перевести офлайн-аудиторию в онлайн.</p>
+  </div>
+
+  <!-- Проблема / Решение -->
+  <div class="ps-grid reveal">
+    <div class="ps-block">
+      <div class="ps-label">Проблема</div>
+      <div class="ps-list">
+        <div class="ps-item">
+          <span class="ps-icon">—</span>
+          <div class="ps-text"><strong>Низкая посещаемость в будни</strong>Зал заполнялся только в выходные и праздники</div>
+        </div>
+        <div class="ps-item">
+          <span class="ps-icon">—</span>
+          <div class="ps-text"><strong>Соцсети не работали как канал продаж</strong>Слабая активность, нет вовлечения и конверсии</div>
+        </div>
+        <div class="ps-item">
+          <span class="ps-icon">—</span>
+          <div class="ps-text"><strong>Нет возврата клиентов</strong>Отсутствие системы удержания и поводов вернуться</div>
+        </div>
+      </div>
+    </div>
+    <div class="ps-block">
+      <div class="ps-label">Решение</div>
+      <div class="ps-list">
+        <div class="ps-item">
+          <span class="ps-icon">→</span>
+          <div class="ps-text"><strong>Ведение и упаковка соцсетей</strong>Instagram, Telegram, ВКонтакте — единый стиль и голос бренда</div>
+        </div>
+        <div class="ps-item">
+          <span class="ps-icon">→</span>
+          <div class="ps-text"><strong>QR-коды в заведении</strong>Таблички в залах → переход в соцсети прямо с места</div>
+        </div>
+        <div class="ps-item">
+          <span class="ps-icon">→</span>
+          <div class="ps-text"><strong>Акции и поводы прийти в будни</strong>Скидки до 20%, живой вокал, тематические вечера</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Итоги -->
+  <div class="stats-grid reveal">
+    <div class="stat-block">
+      <div class="stat-num">+32%</div>
+      <div class="stat-label">рост потока гостей в будние дни</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">+210</div>
+      <div class="stat-label">новых подписчиков за период</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">+68%</div>
+      <div class="stat-label">рост охватов и вовлечённости</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">142</div>
+      <div class="stat-label">сканирования QR-кодов → переходы в соцсети</div>
+    </div>
+    <div class="stat-block wide">
+      <div class="stat-num">+27%</div>
+      <div class="stat-label">повторных посещений и бронирований</div>
+    </div>
+  </div>
+
+  <!-- Что было сделано -->
+  <div class="done-list reveal">
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Ведение и переоформление профилей</div>
+        <div class="done-sub">Instagram, Telegram, ВКонтакте — единый визуальный стиль, шапки, хайлайты</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Создание контента и офферов</div>
+        <div class="done-sub">Посты, сторис, акции и поводы прийти именно в будни</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Внедрение QR-кодов с табличками</div>
+        <div class="done-sub">Размещены в залах заведения — конвертируют офлайн-гостей в подписчиков</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Работа с аудиторией и удержание</div>
+        <div class="done-sub">Поводы возвращаться, лояльная база через Telegram-канал</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CASE 3 — TempesT Site ===== -->
+<section class="case-section" id="tempest">
+  <div class="section-label reveal">03 — Веб-разработка</div>
+
+  <div class="reveal">
+    <div class="case-cat">Сайт · Telegram-бот · UI/UX</div>
+    <h2 class="case-title">TempesT —<br>сайт клана</h2>
+    <p class="case-desc">Клан PUBG Mobile нуждался в странице для набора игроков: красивое оформление, удобная заявка и автоматическая обработка кандидатов. Написал код вручную — от дизайна до интеграции с Telegram.</p>
+  </div>
+
+  <!-- Превью сайта -->
+  <div class="site-preview reveal">
+    <div class="site-preview-bar">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="url-bar">auvixda.github.io/Pubg/</div>
+    </div>
+    <img src="1000000290.jpg" alt="Сайт TempesT — PUBG Mobile клан">
+  </div>
+
+  <!-- Что было сделано -->
+  <div class="done-list reveal">
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Разработка сайта с нуля по ТЗ</div>
+        <div class="done-sub">HTML, CSS, JS — весь код написан вручную. Единый стиль под эстетику PUBG Mobile</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Форма заявки на вступление в клан</div>
+        <div class="done-sub">Поля: никнейм, ID, город, о себе — всё необходимое для отбора кандидатов</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">Интеграция с Telegram-ботом</div>
+        <div class="done-sub">Заявки автоматически приходят в Telegram — удобный просмотр и отбор прямо в мессенджере</div>
+      </div>
+    </div>
+    <div class="done-item">
+      <span class="done-arrow">→</span>
+      <div>
+        <div class="done-text">UI-дизайн страницы 404</div>
+        <div class="done-sub">Уникальный интерфейс error-страницы в стиле бренда по отдельному ТЗ клиента</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Результаты -->
+  <div class="stats-grid reveal" style="margin-top:2px;">
+    <div class="stat-block">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">ручной код, без конструкторов</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">Auto</div>
+      <div class="stat-label">заявки — прямо в Telegram клиента</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="case-section" style="padding-top:40px; padding-bottom:56px;">
+  <div class="cta-block reveal">
+    <div class="cta-label">Следующий шаг</div>
+    <div class="cta-text">Обсудим ваш проект?</div>
+    <div class="cta-sub">Расскажите о задаче — предложу решение и стоимость в течение дня. Без лишних звонков.</div>
+    <a class="cta-btn" href="index.html#apply">Оставить заявку →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="footer-logo" href="index.html"><span>A</span>UVIX Digital Agency</a>
+  <p class="footer-copy">SMM · Дизайн контента · Веб<br>Работаю напрямую, без посредников</p>
+</footer>
+
+<a class="back-to-top" id="backToTop" href="#hero">↑</a>
+
+<script>
+  // Scroll progress
+  const scrollLine = document.getElementById('scrollLine');
+  const navbar = document.getElementById('navbar');
+  const backToTop = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    scrollLine.style.width = (scrolled / total * 100) + '%';
+    navbar.classList.toggle('scrolled', scrolled > 20);
+    backToTop.classList.toggle('visible', scrolled > 400);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
