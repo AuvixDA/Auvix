@@ -241,9 +241,6 @@
     color: var(--accent); margin-bottom: 40px;
     display: flex; align-items: center; gap: 12px;
   }
-  .section-label::after {
-    content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--accent);
-  }
 
   /* ABOUT */
   #about { display: flex; flex-direction: column; gap: 36px; }
@@ -568,7 +565,7 @@
     <div class="stat"><div class="stat-num">1,5+</div><div class="stat-label">года в SMM и дизайне</div></div>
     <div class="stat"><div class="stat-num">20+</div><div class="stat-label">выполненных задач</div></div>
     <div class="stat"><div class="stat-num">5.0</div><div class="stat-label">рейтинг на Авито</div></div>
-    <div class="stat"><div class="stat-num" style="font-size:28px; padding-top:8px;">98%</div><div class="stat-label">Клиентов остаются довольны результатом</div></div>
+    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Клиентов остаются довольны результатом</div></div>
   </div>
 
   <!-- PROMO -->
@@ -596,7 +593,7 @@
 
 <!-- WORKS -->
 <section id="works">
-  <div class="section-label">02 — Работы</div>
+  <div class="section-label">Работы</div>
   <div class="case-list reveal">
     <div class="case-row">
       <div class="case-row-cat">TikTok · Pets · Органический рост</div>
@@ -643,7 +640,7 @@
 
 <!-- SERVICES -->
 <section id="services">
-  <div class="section-label">03 — Услуги</div>
+  <div class="section-label">Услуги</div>
   <div class="services-grid reveal">
     <div class="service">
       <div class="service-num">01</div>
@@ -700,7 +697,7 @@
 
 <!-- PROCESS -->
 <section id="process">
-  <div class="section-label">04 — Как я работаю</div>
+  <div class="section-label">Как я работаю</div>
   <div class="process-list reveal">
     <div class="process-step">
       <div class="process-num">01</div>
@@ -755,7 +752,7 @@
 
 <!-- REVIEWS -->
 <section id="reviews">
-  <div class="section-label">05 — Отзывы</div>
+  <div class="section-label">Отзывы</div>
   <div class="reviews-list">
     <div class="review-card reveal">
       <div class="review-author">
@@ -807,7 +804,7 @@
 
 <!-- FAQ -->
 <section id="faq">
-  <div class="section-label">06 — Вопросы</div>
+  <div class="section-label">Вопросы</div>
   <div class="reveal">
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)"><span>Сколько стоят услуги?</span><span class="faq-arrow">+</span></div>
@@ -842,7 +839,7 @@
 
 <!-- APPLICATION FORM -->
 <section id="apply">
-  <div class="section-label">07 — Заявка</div>
+  <div class="section-label">Заявка</div>
 
   <div id="formContainer">
     <h2 class="apply-title">Оставить<br><span>заявку</span></h2>
@@ -950,7 +947,7 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-label">08 — Контакт</div>
+  <div class="section-label">Контакт</div>
   <div>
     <h2 class="contact-title">Готовы<br><span>стартовать?</span></h2>
     <p class="contact-desc">Выберите удобный способ связи.</p>
@@ -1109,9 +1106,15 @@
     const platforms = getSelectedPlatforms();
 
     const errEl = document.getElementById('formError');
+    const phoneDigits = phone.replace(/\D/g, '');
     if (!name || !phone || !business) {
       errEl.style.display = 'block';
       errEl.textContent = 'Заполните обязательные поля: имя, номер телефона и описание бизнеса.';
+      return;
+    }
+    if (phoneDigits.length < 10) {
+      errEl.style.display = 'block';
+      errEl.textContent = 'Введите корректный номер телефона (минимум 10 цифр).';
       return;
     }
     errEl.style.display = 'none';
