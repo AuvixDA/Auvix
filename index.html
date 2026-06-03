@@ -1236,5 +1236,316 @@
 
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
+<!-- ═══════════════════════════════════════════════════════════════
+     AUVIX AI CHAT WIDGET
+     Вставить перед закрывающим </body> на каждой странице
+     Заменить CHAT_WORKER_URL на реальный URL твоего Worker'а
+═══════════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── CHAT WIDGET ─────────────────────────────────────── */
+  .ai-chat-btn {
+    position: fixed; bottom: 80px; right: 16px;
+    width: 48px; height: 48px;
+    background: var(--accent); color: #0a0a0a;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; z-index: 95;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(200,240,96,0.3);
+  }
+  .ai-chat-btn:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(200,240,96,0.45); }
+  .ai-chat-btn .chat-tooltip {
+    position: absolute; right: 56px; top: 50%; transform: translateY(-50%);
+    background: var(--bg2); border: 1px solid var(--border);
+    color: var(--white); font-family: 'Geologica', sans-serif;
+    font-size: 12px; white-space: nowrap;
+    padding: 6px 12px; pointer-events: none;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .ai-chat-btn:hover .chat-tooltip { opacity: 1; }
+
+  .ai-chat-window {
+    position: fixed; bottom: 136px; right: 16px;
+    width: min(360px, calc(100vw - 32px));
+    height: min(480px, calc(100vh - 160px));
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    z-index: 95; opacity: 0; pointer-events: none;
+    transform: translateY(16px) scale(0.97);
+    transition: opacity 0.25s, transform 0.25s;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  }
+  .ai-chat-window.open {
+    opacity: 1; pointer-events: all;
+    transform: translateY(0) scale(1);
+  }
+
+  .chat-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .chat-header-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(200,240,96,0.7);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .chat-header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px; letter-spacing: 0.08em; flex: 1;
+  }
+  .chat-header-sub {
+    font-size: 10px; color: var(--gray);
+    letter-spacing: 0.05em;
+  }
+  .chat-close {
+    background: none; border: none; color: var(--gray);
+    font-size: 18px; cursor: pointer; padding: 0;
+    transition: color 0.2s; line-height: 1;
+  }
+  .chat-close:hover { color: var(--accent); }
+
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .chat-msg {
+    max-width: 85%; display: flex; flex-direction: column; gap: 4px;
+  }
+  .chat-msg.user { align-self: flex-end; align-items: flex-end; }
+  .chat-msg.bot  { align-self: flex-start; align-items: flex-start; }
+
+  .chat-bubble {
+    padding: 10px 14px;
+    font-size: 13px; line-height: 1.6;
+    font-family: 'Geologica', sans-serif;
+  }
+  .chat-msg.user .chat-bubble {
+    background: var(--accent); color: #0a0a0a; font-weight: 500;
+  }
+  .chat-msg.bot .chat-bubble {
+    background: var(--bg3); color: var(--white);
+    border-left: 2px solid var(--accent);
+  }
+  .chat-msg-time {
+    font-size: 10px; color: var(--gray); letter-spacing: 0.05em;
+  }
+
+  .chat-typing {
+    align-self: flex-start;
+    display: none; gap: 5px; align-items: center;
+    padding: 12px 16px;
+    background: var(--bg3); border-left: 2px solid var(--accent);
+  }
+  .chat-typing.show { display: flex; }
+  .chat-typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); opacity: 0.4;
+    animation: typingDot 1.2s infinite;
+  }
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingDot { 0%,60%,100%{opacity:0.4; transform:scale(1)} 30%{opacity:1; transform:scale(1.3)} }
+
+  .chat-footer {
+    padding: 12px; border-top: 1px solid var(--border);
+    display: flex; gap: 8px; flex-shrink: 0;
+  }
+  .chat-input {
+    flex: 1; background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 10px 14px; color: var(--white);
+    font-family: 'Geologica', sans-serif; font-size: 13px;
+    outline: none; resize: none; height: 40px;
+    transition: border-color 0.2s; border-radius: 0;
+    line-height: 1.4;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-input::placeholder { color: var(--gray); }
+  .chat-send {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--accent); color: #0a0a0a;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: opacity 0.2s;
+  }
+  .chat-send:hover { opacity: 0.85; }
+  .chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .chat-hints {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 0 16px 12px; flex-shrink: 0;
+  }
+  .chat-hint {
+    font-size: 11px; padding: 5px 10px;
+    border: 1px solid var(--border); color: var(--gray);
+    cursor: pointer; font-family: 'Geologica', sans-serif;
+    transition: border-color 0.2s, color 0.2s; background: none;
+    letter-spacing: 0.03em;
+  }
+  .chat-hint:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+
+<!-- CHAT BUTTON -->
+<button class="ai-chat-btn" id="aiChatBtn" onclick="toggleAiChat()" aria-label="AI-ассистент">
+  💬
+  <span class="chat-tooltip">Спросить ИИ</span>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="ai-chat-window" id="aiChatWindow">
+  <div class="chat-header">
+    <div class="chat-header-dot"></div>
+    <div>
+      <div class="chat-header-title">AUVIX ASSISTANT</div>
+      <div class="chat-header-sub">Отвечает на вопросы об услугах</div>
+    </div>
+    <button class="chat-close" onclick="toggleAiChat()">✕</button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      <div class="chat-bubble">Привет! Я знаю всё об услугах и ценах AUVIX. Спрашивай — отвечу быстро 👋</div>
+      <div class="chat-msg-time">сейчас</div>
+    </div>
+  </div>
+
+  <div class="chat-typing" id="chatTyping">
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="chat-hints" id="chatHints">
+    <button class="chat-hint" onclick="sendHint(this)">Сколько стоит?</button>
+    <button class="chat-hint" onclick="sendHint(this)">Что входит в пакет?</button>
+    <button class="chat-hint" onclick="sendHint(this)">Как начать?</button>
+    <button class="chat-hint" onclick="sendHint(this)">Сроки?</button>
+  </div>
+
+  <div class="chat-footer">
+    <textarea class="chat-input" id="chatInput"
+      placeholder="Задайте вопрос..."
+      rows="1"
+      onkeydown="handleChatKey(event)"></textarea>
+    <button class="chat-send" id="chatSendBtn" onclick="sendChatMessage()">→</button>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ────────────────────────────────────────────────────────────────
+  const CHAT_WORKER_URL = 'https://keyai.ivankatsan24954.workers.dev/';
+
+  // ── STATE ─────────────────────────────────────────────────────────────────
+  let chatOpen = false;
+  let chatHistory = [];
+  let chatBusy = false;
+
+  // ── TOGGLE ────────────────────────────────────────────────────────────────
+  function toggleAiChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('aiChatWindow').classList.toggle('open', chatOpen);
+    if (chatOpen) {
+      setTimeout(() => document.getElementById('chatInput').focus(), 250);
+    }
+  }
+
+  // ── HINTS ─────────────────────────────────────────────────────────────────
+  function sendHint(btn) {
+    document.getElementById('chatInput').value = btn.textContent;
+    // скрыть подсказки после первого использования
+    document.getElementById('chatHints').style.display = 'none';
+    sendChatMessage();
+  }
+
+  // ── KEY HANDLER ───────────────────────────────────────────────────────────
+  function handleChatKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendChatMessage();
+    }
+  }
+
+  // ── SEND ──────────────────────────────────────────────────────────────────
+  async function sendChatMessage() {
+    if (chatBusy) return;
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+
+    input.value = '';
+    chatBusy = true;
+    document.getElementById('chatSendBtn').disabled = true;
+    document.getElementById('chatHints').style.display = 'none';
+
+    // Добавляем сообщение пользователя
+    appendMessage('user', message);
+
+    // Показываем typing
+    const typing = document.getElementById('chatTyping');
+    typing.classList.add('show');
+    scrollChat();
+
+    try {
+      const res = await fetch(CHAT_WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, history: chatHistory })
+      });
+      const data = await res.json();
+
+      typing.classList.remove('show');
+
+      if (data.reply) {
+        appendMessage('bot', data.reply);
+        // Сохраняем в историю
+        chatHistory.push({ role: 'user', content: message });
+        chatHistory.push({ role: 'assistant', content: data.reply });
+      } else {
+        appendMessage('bot', 'Что-то пошло не так. Напишите Ивану напрямую: @idwvw');
+      }
+    } catch (err) {
+      typing.classList.remove('show');
+      appendMessage('bot', 'Нет связи. Попробуйте позже или напишите в Telegram: @idwvw');
+    }
+
+    chatBusy = false;
+    document.getElementById('chatSendBtn').disabled = false;
+    input.focus();
+  }
+
+  // ── APPEND MESSAGE ────────────────────────────────────────────────────────
+  function appendMessage(role, text) {
+    const messages = document.getElementById('chatMessages');
+    const time = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+    const div = document.createElement('div');
+    div.className = `chat-msg ${role}`;
+    div.innerHTML = `
+      <div class="chat-bubble">${escapeHtml(text)}</div>
+      <div class="chat-msg-time">${time}</div>
+    `;
+    messages.appendChild(div);
+    scrollChat();
+  }
+
+  function scrollChat() {
+    const m = document.getElementById('chatMessages');
+    m.scrollTop = m.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+              .replace(/\n/g,'<br>');
+  }
+</script>
+
 </body>
 </html>
