@@ -403,14 +403,17 @@
   .package-banner-close:hover { color: var(--accent); }
 
   /* SUBMIT BTN */
-    width: 100%; padding: 16px;
+  .submit-btn {
+    width: 100%; padding: 18px;
     background: var(--accent); color: #0a0a0a;
     border: none; font-family: 'Geologica', sans-serif;
-    font-size: 13px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    cursor: pointer; margin-top: 8px;
-    transition: opacity 0.2s, transform 0.1s;
+    font-size: 14px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    cursor: pointer; margin-top: 16px;
+    display: block; text-align: center;
+    transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
   }
+  .submit-btn:hover { box-shadow: 0 12px 40px rgba(200,240,96,0.3); }
   .submit-btn:active { transform: scale(0.98); }
   .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
