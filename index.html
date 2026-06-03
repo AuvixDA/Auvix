@@ -864,8 +864,13 @@
     </div>
 
     <div class="form-field">
-      <label class="form-label">Telegram / Instagram / телефон *</label>
-      <input type="text" id="f_contact" placeholder="@username или +7... (если профиль закрытый — укажите телефон)">
+      <label class="form-label">Номер телефона *</label>
+      <input type="tel" id="f_phone" placeholder="+7 999 123 45 67" autocomplete="tel">
+    </div>
+
+    <div class="form-field">
+      <label class="form-label">Telegram / Instagram / другая соцсеть</label>
+      <input type="text" id="f_contact" placeholder="@username">
     </div>
 
     <div class="form-field">
@@ -1094,6 +1099,7 @@
   // ─── SUBMIT ───────────────────────────────────────────────────────────────
   async function submitApplication() {
     const name     = document.getElementById('f_name').value.trim();
+    const phone    = document.getElementById('f_phone').value.trim();
     const contact  = document.getElementById('f_contact').value.trim();
     const business = document.getElementById('f_business').value.trim();
     const service  = document.getElementById('f_service').value;
@@ -1103,8 +1109,9 @@
     const platforms = getSelectedPlatforms();
 
     const errEl = document.getElementById('formError');
-    if (!name || !contact || !business) {
+    if (!name || !phone || !business) {
       errEl.style.display = 'block';
+      errEl.textContent = 'Заполните обязательные поля: имя, номер телефона и описание бизнеса.';
       return;
     }
     errEl.style.display = 'none';
@@ -1114,12 +1121,10 @@
     btn.textContent = 'Отправляю...';
 
     const tgUser = tg?.initDataUnsafe?.user;
-    const tgUsername = tgUser?.username ? `@${tgUser.username}` : 'неизвестен';
+    const tgUsername = tgUser?.username ? `@${tgUser.username}` : null;
     const tgName = tgUser ? `${tgUser.first_name || ''} ${tgUser.last_name || ''}`.trim() : '';
 
-    const clientLine = tgName
-      ? `${name} · ${tgName} (${tgUsername})`
-      : `${name} · TG: ${tgUsername}`;
+    const clientLine = tgName ? `${name} · ${tgName}` : name;
 
     const text = [
       selectedPackage
@@ -1132,7 +1137,9 @@
       ``,
       `━━━━━━━━━━━━━━━━━━`,
       `👤 *Клиент:* ${clientLine}`,
-      `📞 *Контакт:* ${contact}`,
+      `📞 *Телефон:* ${phone}`,
+      contact ? `💬 *Соцсеть:* ${contact}` : '',
+      tgUsername ? `🤖 *TG (Mini App):* ${tgUsername}` : '',
       `🏢 *Бизнес:* ${business}`,
       ``,
       platforms !== 'не выбрано' ? `📱 *Платформы:* ${platforms}` : '',
