@@ -373,7 +373,36 @@
   }
   .platform-btn.selected { background: var(--accent); border-color: var(--accent); color: #0a0a0a; font-weight: 500; }
 
-  .submit-btn {
+  /* PACKAGE BANNER */
+  .package-banner {
+    display: none;
+    background: var(--bg3);
+    border-left: 3px solid var(--accent);
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .package-banner.hidden { display: none !important; }
+  .package-banner-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .package-banner-label {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  .package-banner-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; color: var(--white); line-height: 1.2;
+  }
+  .package-banner-close {
+    margin-left: auto; flex-shrink: 0;
+    background: none; border: none; color: var(--gray);
+    font-size: 18px; cursor: pointer; padding: 0 0 0 12px;
+    line-height: 1; transition: color 0.2s;
+  }
+  .package-banner-close:hover { color: var(--accent); }
+
+  /* SUBMIT BTN */
     width: 100%; padding: 16px;
     background: var(--accent); color: #0a0a0a;
     border: none; font-family: 'Geologica', sans-serif;
@@ -449,6 +478,22 @@
     color: var(--gray); margin-top: 3px;
   }
 </style>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+   ym(109533947, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/109533947" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </head>
 <body>
 
@@ -800,6 +845,16 @@
     <h2 class="apply-title">Оставить<br><span>заявку</span></h2>
     <p class="apply-desc">Заполните форму — свяжусь с вами в течение дня и предложу решение.</p>
 
+    <!-- PACKAGE BANNER -->
+    <div class="package-banner hidden" id="packageBanner">
+      <div class="package-banner-icon">🛒</div>
+      <div>
+        <div class="package-banner-label">Выбранный пакет</div>
+        <div class="package-banner-name" id="packageBannerName"></div>
+      </div>
+      <button class="package-banner-close" onclick="clearPackage()" title="Убрать">✕</button>
+    </div>
+
     <div class="form-field">
       <label class="form-label">Ваше имя *</label>
       <input type="text" id="f_name" placeholder="Как вас зовут?" autocomplete="name">
@@ -815,8 +870,7 @@
       <input type="text" id="f_business" placeholder="Чем занимаетесь? Кофейня, магазин, услуги...">
     </div>
 
-    <div class="form-field">
-      <label class="form-label">Нужная услуга</label>
+    <div class="form-field" id="field_service">
       <select id="f_service">
         <option value="">Выберите...</option>
         <option>SMM под ключ</option>
@@ -830,8 +884,7 @@
       </select>
     </div>
 
-    <div class="form-field">
-      <label class="form-label">Бюджет в месяц</label>
+    <div class="form-field" id="field_budget">
       <select id="f_budget">
         <option value="">Выберите...</option>
         <option>до 10 000 ₽</option>
@@ -876,7 +929,11 @@
   <div class="success-screen" id="successScreen">
     <div class="success-icon">✅</div>
     <div class="success-title">Заявка отправлена!</div>
-    <div class="success-text">Заявка получена — свяжусь с вами в течение дня.<br><br>Если хотите написать прямо сейчас:</div>
+    <div id="successPackageBlock" style="display:none; background:var(--bg3); border-left:3px solid var(--accent); padding:12px 16px; margin:16px 0; text-align:left;">
+      <div style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:4px;">Выбранный пакет</div>
+      <div id="successPackageName" style="font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--white);"></div>
+    </div>
+    <div class="success-text">Получил заявку — свяжусь с вами в течение дня, уточним детали и стартуем.<br><br>Или напишите прямо сейчас:</div>
     <a href="https://t.me/idwvw" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#0a0a0a; padding:14px 28px; font-size:13px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; margin-top:8px;">
       Написать в Telegram →
     </a>
@@ -945,6 +1002,44 @@
     tg.MainButton.textColor = '#0a0a0a';
     tg.MainButton.show();
     tg.MainButton.onClick(() => scrollToApply());
+  }
+
+  // ─── PACKAGE FROM URL ────────────────────────────────────────────────────
+  let selectedPackage = '';
+
+  function applyPackageUI(pkg) {
+    const serviceField  = document.getElementById('field_service');
+    const budgetField   = document.getElementById('field_budget');
+    if (pkg) {
+      // Pre-fill service select with closest match if possible
+      if (serviceField) serviceField.style.display = 'none';
+      if (budgetField)  budgetField.style.display  = 'none';
+    } else {
+      if (serviceField) serviceField.style.display = '';
+      if (budgetField)  budgetField.style.display  = '';
+    }
+  }
+
+  (function initPackageBanner() {
+    const params = new URLSearchParams(window.location.search);
+    const pkg = params.get('package');
+    if (pkg) {
+      selectedPackage = decodeURIComponent(pkg);
+      const banner = document.getElementById('packageBanner');
+      document.getElementById('packageBannerName').textContent = selectedPackage;
+      banner.classList.remove('hidden');
+      applyPackageUI(selectedPackage);
+    }
+  })();
+
+  function clearPackage() {
+    selectedPackage = '';
+    const banner = document.getElementById('packageBanner');
+    banner.classList.add('hidden');
+    applyPackageUI('');
+    const url = new URL(window.location.href);
+    url.searchParams.delete('package');
+    history.replaceState(null, '', url.toString());
   }
 
   // ─── BOT CONFIG ───────────────────────────────────────────────────────────
@@ -1019,20 +1114,32 @@
     const tgUsername = tgUser?.username ? `@${tgUser.username}` : 'неизвестен';
     const tgName = tgUser ? `${tgUser.first_name || ''} ${tgUser.last_name || ''}`.trim() : '';
 
+    const clientLine = tgName
+      ? `${name} · ${tgName} (${tgUsername})`
+      : `${name} · TG: ${tgUsername}`;
+
     const text = [
-      `📥 *Новая заявка с Mini App!*`,
+      selectedPackage
+        ? `🛒 *ЗАЯВКА С ПАКЕТОМ*`
+        : `📋 *ОБЩАЯ ЗАЯВКА*`,
       ``,
-      `👤 *Имя:* ${name}`,
-      tgName ? `🤖 *TG профиль:* ${tgName} (${tgUsername})` : `🤖 *TG:* ${tgUsername}`,
+      selectedPackage
+        ? `📦 *Пакет:* ${selectedPackage}`
+        : `🎯 *Интерес:* ${service || 'не указано'}`,
+      ``,
+      `━━━━━━━━━━━━━━━━━━`,
+      `👤 *Клиент:* ${clientLine}`,
       `📞 *Контакт:* ${contact}`,
       `🏢 *Бизнес:* ${business}`,
-      `🎯 *Услуга:* ${service || 'не указано'}`,
-      `💰 *Бюджет:* ${budget || 'не указан'}`,
-      `📱 *Платформы:* ${platforms}`,
-      isPromo ? `🎁 *АКЦИЯ:* Тестовый проект за отзыв` : '',
+      ``,
+      platforms !== 'не выбрано' ? `📱 *Платформы:* ${platforms}` : '',
+      selectedPackage && service ? `🎯 *Также интересует:* ${service}` : (!selectedPackage && budget ? `💰 *Бюджет:* ${budget}` : ''),
+      isPromo ? `🎁 *Хочет пробный проект за отзыв*` : '',
       comment ? `💬 *Комментарий:* ${comment}` : '',
       ``,
+      `━━━━━━━━━━━━━━━━━━`,
       `⏰ ${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })}`,
+      selectedPackage ? `🔗 Источник: страница пакетов` : `🔗 Источник: форма на главной`,
     ].filter(Boolean).join('\n');
 
     try {
@@ -1043,6 +1150,12 @@
       });
       const data = await res.json();
       if (data.ok) {
+        ym(109533947, 'reachGoal', 'form_submit', { package: selectedPackage || 'без пакета' });
+        // Show package in success screen if applicable
+        if (selectedPackage) {
+          document.getElementById('successPackageName').textContent = selectedPackage;
+          document.getElementById('successPackageBlock').style.display = 'block';
+        }
         document.getElementById('formContainer').style.display = 'none';
         document.getElementById('successScreen').classList.add('show');
         tg?.MainButton.hide();
