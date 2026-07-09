@@ -31,20 +31,21 @@
   header nav { display: flex; gap: 16px; align-items: center; font-size: 13px; }
   header nav a, header nav button { color: var(--gray); text-decoration: none; }
 
-  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px; }
 
   /* LOGIN */
   #loginScreen { max-width: 360px; margin: 12vh auto; padding: 0 20px; }
   #loginScreen h1 { font-size: 34px; margin-bottom: 24px; }
   .field { margin-bottom: 16px; }
   .field label { display: block; font-size: 12px; color: var(--gray); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase; }
-  .field input, .field textarea, .field select {
+  .field input, .field textarea {
     width: 100%; background: var(--bg2); border: 1px solid var(--border);
     color: var(--white); padding: 12px 14px; font-size: 14px; font-family: inherit;
     border-radius: 2px;
   }
-  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--accent); }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
   .field textarea { resize: vertical; min-height: 70px; }
+  .field .hint { font-size: 12px; color: var(--gray); margin-top: 6px; }
 
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
@@ -63,43 +64,33 @@
 
   /* LIST */
   .case-row {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
     background: var(--bg2); border: 1px solid var(--border);
     padding: 16px 18px; margin-bottom: 8px; border-radius: 2px;
   }
+  .case-row-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 2px; flex-shrink: 0; background: var(--bg3); }
+  .case-row-info { flex: 1; min-width: 0; }
   .case-row-title { font-size: 15px; }
   .case-row-meta { font-size: 12px; color: var(--gray); margin-top: 4px; }
-  .case-row-actions { display: flex; gap: 8px; }
 
   .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; flex-wrap: wrap; }
 
-  /* BLOCK EDITOR */
-  .block-card {
-    background: var(--bg2); border: 1px solid var(--border);
-    padding: 18px; margin-bottom: 14px; border-radius: 2px;
+  /* PHOTO GALLERY EDITOR */
+  .gallery-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .gallery-item { position: relative; width: 110px; }
+  .gallery-item img { width: 110px; height: 110px; object-fit: cover; border-radius: 2px; border: 1px solid var(--border); display: block; }
+  .gallery-item .remove-photo {
+    position: absolute; top: 4px; right: 4px;
+    background: rgba(10,10,10,0.85); color: var(--danger);
+    border: none; width: 22px; height: 22px; border-radius: 50%;
+    cursor: pointer; font-size: 12px; line-height: 1;
   }
-  .block-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .block-type-label {
-    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
-  }
-  .block-actions { display: flex; gap: 6px; }
-  .icon-btn {
+  .gallery-item .move-btns { display: flex; justify-content: space-between; margin-top: 4px; }
+  .gallery-item .move-btns button {
     background: var(--bg3); border: 1px solid var(--border); color: var(--gray);
-    cursor: pointer; padding: 5px 9px; font-size: 12px; border-radius: 2px;
+    font-size: 10px; padding: 3px 6px; cursor: pointer; border-radius: 2px;
   }
-  .icon-btn:hover { color: var(--white); }
-
-  .item-row { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 10px; background: var(--bg3); border-radius: 2px; margin-bottom: 8px; }
-  .item-row-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .item-row-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-  .checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--gray); }
-
-  .img-preview { max-width: 100%; max-height: 160px; display: block; margin-top: 8px; border: 1px solid var(--border); }
-  .upload-status { font-size: 12px; color: var(--accent); margin-top: 6px; }
-
-  .add-block-row { display: flex; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
-
-  .section-title { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin: 24px 0 10px; }
+  .upload-status { font-size: 12px; color: var(--accent); margin: 6px 0 0; min-height: 16px; }
 
   .hidden { display: none !important; }
 
@@ -139,14 +130,11 @@
     <div id="listView">
       <div class="toolbar">
         <h2 style="font-size:26px;">Кейсы</h2>
-        <div style="display:flex; gap:8px;">
-          <button class="btn secondary" id="importDemoBtn">Импортировать 3 демо-кейса</button>
-          <button class="btn" id="newCaseBtn">+ Новый кейс</button>
-        </div>
+        <button class="btn" id="newCaseBtn">+ Новый кейс</button>
       </div>
       <div id="casesList"></div>
       <div id="listEmptyMsg" class="hidden" style="color:var(--gray); font-size:14px; padding:20px 0;">
-        Кейсов пока нет. Нажми «Новый кейс» или импортируй демо-кейсы.
+        Кейсов пока нет. Нажми «Новый кейс», чтобы добавить первый.
       </div>
     </div>
 
@@ -157,34 +145,27 @@
         <button class="btn secondary small" id="backToListBtn">← К списку</button>
       </div>
 
-      <div class="section-title">Основное</div>
-      <div class="item-row-grid3">
-        <div class="field"><label>Порядок (число, меньше — выше)</label><input type="number" id="fOrder" value="1"></div>
-        <div class="field"><label>Номер раздела</label><input type="text" id="fSectionNumber" placeholder="01"></div>
-        <div class="field"><label>Тип раздела</label><input type="text" id="fSectionType" placeholder="TikTok / SMM / Веб-разработка"></div>
-      </div>
       <div class="field">
-        <label>Тег категории (маленькая строка над заголовком)</label>
-        <input type="text" id="fCategoryTag" placeholder="TikTok · Pets · Органический рост">
+        <label>Название</label>
+        <input type="text" id="fTitle" placeholder="Например: GeraDog — TikTok с нуля">
+        <div class="hint">Можно нажать Enter для переноса строки — так же, как на сайте.</div>
       </div>
-      <div class="field">
-        <label>Заголовок (Enter — перенос строки, как на сайте)</label>
-        <textarea id="fTitle" placeholder="GeraDog —&#10;TikTok с нуля"></textarea>
-      </div>
+
       <div class="field">
         <label>Описание</label>
-        <textarea id="fDescription"></textarea>
+        <textarea id="fDescription" placeholder="Коротко: что за проект и что было сделано"></textarea>
       </div>
 
-      <div class="section-title">Блоки кейса (в порядке отображения)</div>
-      <div id="blocksContainer"></div>
+      <div class="field">
+        <label>Фото</label>
+        <div class="gallery-list" id="galleryList"></div>
+        <input type="file" id="photoInput" accept="image/*" multiple>
+        <div class="upload-status" id="uploadStatus"></div>
+      </div>
 
-      <div class="add-block-row">
-        <button class="btn secondary small" data-add-block="image">+ Фото</button>
-        <button class="btn secondary small" data-add-block="stats">+ Статистика</button>
-        <button class="btn secondary small" data-add-block="doneList">+ Список работ</button>
-        <button class="btn secondary small" data-add-block="problemSolution">+ Проблема/Решение</button>
-        <button class="btn secondary small" data-add-block="sitePreview">+ Превью сайта</button>
+      <div class="field">
+        <label>Ссылка на проект (необязательно)</label>
+        <input type="text" id="fLink" placeholder="https://...">
       </div>
 
       <div style="display:flex; gap:10px; margin-top:24px;">
@@ -235,7 +216,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // ---------- STATE ----------
-let currentBlocks = [];   // блоки редактируемого кейса
+let currentImages = [];   // массив URL фото редактируемого кейса
 let editingCaseId = null; // null = новый кейс
 
 // ---------- VIEW SWITCH ----------
@@ -255,7 +236,7 @@ async function loadCasesList() {
   const listEl = document.getElementById('casesList');
   const emptyEl = document.getElementById('listEmptyMsg');
   listEl.innerHTML = '<div style="color:var(--gray); font-size:13px;">Загрузка…</div>';
-  const q = query(collection(db, 'cases'), orderBy('order', 'asc'));
+  const q = query(collection(db, 'cases'), orderBy('createdAt', 'desc'));
   const snap = await getDocs(q);
   listEl.innerHTML = '';
   if (snap.empty) {
@@ -265,16 +246,16 @@ async function loadCasesList() {
   emptyEl.classList.add('hidden');
   snap.forEach(docSnap => {
     const d = docSnap.data();
+    const thumb = (d.images && d.images[0]) || '';
     const row = document.createElement('div');
     row.className = 'case-row';
     row.innerHTML = `
-      <div>
-        <div class="case-row-title">${(d.title || '').replace(/\n/g, ' ')}</div>
-        <div class="case-row-meta">#${d.order ?? '?'} · ${d.sectionNumber || ''} — ${d.sectionType || ''}</div>
+      ${thumb ? `<img class="case-row-thumb" src="${escapeAttr(thumb)}">` : `<div class="case-row-thumb"></div>`}
+      <div class="case-row-info">
+        <div class="case-row-title">${escapeText((d.title || '').replace(/\n/g, ' '))}</div>
+        <div class="case-row-meta">${(d.images || []).length} фото${d.link ? ' · есть ссылка' : ''}</div>
       </div>
-      <div class="case-row-actions">
-        <button class="btn secondary small" data-edit="${docSnap.id}">Редактировать</button>
-      </div>`;
+      <button class="btn secondary small" data-edit="${docSnap.id}">Редактировать</button>`;
     listEl.appendChild(row);
   });
   listEl.querySelectorAll('[data-edit]').forEach(btn => {
@@ -284,337 +265,97 @@ async function loadCasesList() {
 
 document.getElementById('newCaseBtn').addEventListener('click', () => openEditor(null));
 
-// ---------- IMPORT DEMO CASES ----------
-document.getElementById('importDemoBtn').addEventListener('click', async () => {
-  if (!confirm('Импортировать 3 исходных кейса (GeraDog, Опера, TempesT) в базу? Существующие фото при этом останутся на прежних ссылках (jpg-файлы в репозитории).')) return;
-  const btn = document.getElementById('importDemoBtn');
-  btn.disabled = true; btn.textContent = 'Импортирую…';
-  try {
-    for (const c of DEMO_CASES) {
-      await addDoc(collection(db, 'cases'), { ...c, createdAt: serverTimestamp() });
-    }
-    alert('Готово! Демо-кейсы добавлены.');
-    loadCasesList();
-  } catch (e) {
-    alert('Ошибка импорта: ' + e.message);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Импортировать 3 демо-кейса';
-  }
-});
-
-const DEMO_CASES = [
-  {
-    order: 1, sectionNumber: '01', sectionType: 'TikTok',
-    categoryTag: 'TikTok · Pets · Органический рост',
-    title: 'GeraDog —\nTikTok с нуля',
-    description: 'Аккаунт об амстаффе Гере — воспитание, уход и жизнь с собакой. Создал с нуля, вёл 2 месяца без рекламного бюджета. Ставка на образовательный и экспертный контент для владельцев.',
-    blocks: [
-      { type: 'image', url: '1000000287.jpg', alt: 'GeraDog — 800K просмотров за 60 дней' },
-      { type: 'stats', items: [
-        { value: '800K', label: 'просмотров', growth: '+688%' },
-        { value: '31K', label: 'лайков', growth: '+535%' },
-        { value: '5 700', label: 'репостов', growth: '+1861%' },
-        { value: '2 500+', label: 'новых подписчиков', growth: 'органически' }
-      ] },
-      { type: 'image', url: '1000000289.jpg', alt: 'Результаты за 60 дней — GeraDog' },
-      { type: 'doneList', items: [
-        { title: 'Анализ ниши и конкурентов', sub: 'Изучил популярные форматы в нише pets, нашёл темы с высоким потенциалом охвата' },
-        { title: 'Разработка контент-стратегии', sub: 'Позиционирование — экспертный аккаунт для владельцев собак, упор на полезность' },
-        { title: 'Создание и монтаж видео', sub: 'Сценарий, съёмка, монтаж, заголовки и описания — всё под ключ' },
-        { title: 'Публикация и аналитика', sub: 'Контент регулярно попадал в рекомендации и активно распространялся через репосты' }
-      ] },
-      { type: 'image', url: '1000000288.jpg', alt: 'Что было сделано — GeraDog' }
-    ]
-  },
-  {
-    order: 2, sectionNumber: '02', sectionType: 'SMM',
-    categoryTag: 'Instagram · Telegram · ВКонтакте · Офлайн-интеграция',
-    title: 'Karaoke-бар\n«Опера»',
-    description: 'Заведение теряло посетителей в будние дни — основной поток шёл только в выходные. Задача: выстроить системное привлечение через соцсети и перевести офлайн-аудиторию в онлайн.',
-    blocks: [
-      { type: 'problemSolution',
-        problem: [
-          { title: 'Низкая посещаемость в будни', text: 'Зал заполнялся только в выходные и праздники' },
-          { title: 'Соцсети не работали как канал продаж', text: 'Слабая активность, нет вовлечения и конверсии' },
-          { title: 'Нет возврата клиентов', text: 'Отсутствие системы удержания и поводов вернуться' }
-        ],
-        solution: [
-          { title: 'Ведение и упаковка соцсетей', text: 'Instagram, Telegram, ВКонтакте — единый стиль и голос бренда' },
-          { title: 'QR-коды в заведении', text: 'Таблички в залах → переход в соцсети прямо с места' },
-          { title: 'Акции и поводы прийти в будни', text: 'Скидки до 20%, живой вокал, тематические вечера' }
-        ]
-      },
-      { type: 'stats', items: [
-        { value: '+32%', label: 'рост потока гостей в будние дни' },
-        { value: '+210', label: 'новых подписчиков за период' },
-        { value: '+68%', label: 'рост охватов и вовлечённости' },
-        { value: '142', label: 'сканирования QR-кодов → переходы в соцсети' },
-        { value: '+27%', label: 'повторных посещений и бронирований', wide: true }
-      ] },
-      { type: 'doneList', items: [
-        { title: 'Ведение и переоформление профилей', sub: 'Instagram, Telegram, ВКонтакте — единый визуальный стиль, шапки, хайлайты' },
-        { title: 'Создание контента и офферов', sub: 'Посты, сторис, акции и поводы прийти именно в будни' },
-        { title: 'Внедрение QR-кодов с табличками', sub: 'Размещены в залах заведения — конвертируют офлайн-гостей в подписчиков' },
-        { title: 'Работа с аудиторией и удержание', sub: 'Поводы возвращаться, лояльная база через Telegram-канал' }
-      ] }
-    ]
-  },
-  {
-    order: 3, sectionNumber: '03', sectionType: 'Веб-разработка',
-    categoryTag: 'Сайт · Telegram-бот · UI/UX',
-    title: 'TempesT —\nсайт клана',
-    description: 'Клан PUBG Mobile нуждался в странице для набора игроков: красивое оформление, удобная заявка и автоматическая обработка кандидатов. Написал код вручную — от дизайна до интеграции с Telegram.',
-    blocks: [
-      { type: 'sitePreview', url: 'auvixda.github.io/Pubg/', image: '1000000290.jpg', alt: 'Сайт TempesT — PUBG Mobile клан' },
-      { type: 'doneList', items: [
-        { title: 'Разработка сайта с нуля по ТЗ', sub: 'HTML, CSS, JS — весь код написан вручную. Единый стиль под эстетику PUBG Mobile' },
-        { title: 'Форма заявки на вступление в клан', sub: 'Поля: никнейм, ID, город, о себе — всё необходимое для отбора кандидатов' },
-        { title: 'Интеграция с Telegram-ботом', sub: 'Заявки автоматически приходят в Telegram — удобный просмотр и отбор прямо в мессенджере' },
-        { title: 'UI-дизайн страницы 404', sub: 'Уникальный интерфейс error-страницы в стиле бренда по отдельному ТЗ клиента' }
-      ] },
-      { type: 'stats', items: [
-        { value: '100%', label: 'ручной код, без конструкторов' },
-        { value: 'Auto', label: 'заявки — прямо в Telegram клиента' }
-      ] }
-    ]
-  }
-];
-
 // ---------- EDITOR ----------
 async function openEditor(caseId) {
   editingCaseId = caseId;
   document.getElementById('editorStatus').textContent = '';
+  document.getElementById('uploadStatus').textContent = '';
   document.getElementById('deleteCaseBtn').classList.toggle('hidden', !caseId);
+  document.getElementById('photoInput').value = '';
 
   if (caseId) {
     document.getElementById('editorHeading').textContent = 'Редактировать кейс';
     const snap = await getDoc(doc(db, 'cases', caseId));
     const d = snap.data();
-    document.getElementById('fOrder').value = d.order ?? 1;
-    document.getElementById('fSectionNumber').value = d.sectionNumber || '';
-    document.getElementById('fSectionType').value = d.sectionType || '';
-    document.getElementById('fCategoryTag').value = d.categoryTag || '';
     document.getElementById('fTitle').value = d.title || '';
     document.getElementById('fDescription').value = d.description || '';
-    currentBlocks = JSON.parse(JSON.stringify(d.blocks || []));
+    document.getElementById('fLink').value = d.link || '';
+    currentImages = [...(d.images || [])];
   } else {
     document.getElementById('editorHeading').textContent = 'Новый кейс';
-    document.getElementById('fOrder').value = 1;
-    document.getElementById('fSectionNumber').value = '';
-    document.getElementById('fSectionType').value = '';
-    document.getElementById('fCategoryTag').value = '';
     document.getElementById('fTitle').value = '';
     document.getElementById('fDescription').value = '';
-    currentBlocks = [];
+    document.getElementById('fLink').value = '';
+    currentImages = [];
   }
-  renderBlocksEditor();
+  renderGallery();
   showEditorView();
 }
 
-document.querySelectorAll('[data-add-block]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const type = btn.dataset.addBlock;
-    currentBlocks.push(defaultBlock(type));
-    renderBlocksEditor();
-  });
-});
-
-function defaultBlock(type) {
-  switch (type) {
-    case 'image': return { type: 'image', url: '', alt: '' };
-    case 'stats': return { type: 'stats', items: [{ value: '', label: '', growth: '' }] };
-    case 'doneList': return { type: 'doneList', items: [{ title: '', sub: '' }] };
-    case 'problemSolution': return { type: 'problemSolution', problem: [{ title: '', text: '' }], solution: [{ title: '', text: '' }] };
-    case 'sitePreview': return { type: 'sitePreview', url: '', image: '', alt: '' };
-  }
-}
-
-const BLOCK_LABELS = {
-  image: 'Фото', stats: 'Статистика', doneList: 'Список работ',
-  problemSolution: 'Проблема / Решение', sitePreview: 'Превью сайта'
-};
-
-function renderBlocksEditor() {
-  const container = document.getElementById('blocksContainer');
-  container.innerHTML = '';
-  currentBlocks.forEach((block, index) => {
-    const card = document.createElement('div');
-    card.className = 'block-card';
-    card.innerHTML = `
-      <div class="block-card-head">
-        <span class="block-type-label">${BLOCK_LABELS[block.type]}</span>
-        <div class="block-actions">
-          <button class="icon-btn" data-move-up="${index}">↑</button>
-          <button class="icon-btn" data-move-down="${index}">↓</button>
-          <button class="icon-btn" data-remove-block="${index}" style="color:var(--danger)">✕</button>
-        </div>
+function renderGallery() {
+  const galleryEl = document.getElementById('galleryList');
+  galleryEl.innerHTML = currentImages.map((url, i) => `
+    <div class="gallery-item">
+      <img src="${escapeAttr(url)}">
+      <button class="remove-photo" data-remove="${i}" title="Удалить фото">✕</button>
+      <div class="move-btns">
+        <button data-move-left="${i}">←</button>
+        <button data-move-right="${i}">→</button>
       </div>
-      <div class="block-body" data-block-body="${index}"></div>
-    `;
-    container.appendChild(card);
-    renderBlockBody(card.querySelector('[data-block-body]'), block, index);
-  });
+    </div>`).join('');
 
-  container.querySelectorAll('[data-move-up]').forEach(b => b.addEventListener('click', () => {
-    const i = +b.dataset.moveUp;
-    if (i > 0) { [currentBlocks[i-1], currentBlocks[i]] = [currentBlocks[i], currentBlocks[i-1]]; renderBlocksEditor(); }
+  galleryEl.querySelectorAll('[data-remove]').forEach(b => b.addEventListener('click', () => {
+    currentImages.splice(+b.dataset.remove, 1); renderGallery();
   }));
-  container.querySelectorAll('[data-move-down]').forEach(b => b.addEventListener('click', () => {
-    const i = +b.dataset.moveDown;
-    if (i < currentBlocks.length - 1) { [currentBlocks[i+1], currentBlocks[i]] = [currentBlocks[i], currentBlocks[i+1]]; renderBlocksEditor(); }
+  galleryEl.querySelectorAll('[data-move-left]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.moveLeft;
+    if (i > 0) { [currentImages[i-1], currentImages[i]] = [currentImages[i], currentImages[i-1]]; renderGallery(); }
   }));
-  container.querySelectorAll('[data-remove-block]').forEach(b => b.addEventListener('click', () => {
-    currentBlocks.splice(+b.dataset.removeBlock, 1); renderBlocksEditor();
+  galleryEl.querySelectorAll('[data-move-right]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.moveRight;
+    if (i < currentImages.length - 1) { [currentImages[i+1], currentImages[i]] = [currentImages[i], currentImages[i+1]]; renderGallery(); }
   }));
 }
 
-function renderBlockBody(el, block, index) {
-  if (block.type === 'image') {
-    el.innerHTML = `
-      <div class="field"><label>Alt-текст (описание фото)</label><input type="text" data-field="alt" value="${escapeAttr(block.alt)}"></div>
-      <div class="field"><label>Файл</label><input type="file" accept="image/*" data-upload="url"></div>
-      <div class="upload-status" data-upload-status></div>
-      ${block.url ? `<img class="img-preview" src="${escapeAttr(block.url)}">` : ''}
-    `;
-    el.querySelector('[data-field="alt"]').addEventListener('input', e => { block.alt = e.target.value; });
-    bindImageUpload(el, block, 'url', index);
-  }
-
-  if (block.type === 'stats') {
-    el.innerHTML = `<div data-items></div><button class="btn secondary small" data-add-item>+ Показатель</button>`;
-    const itemsEl = el.querySelector('[data-items]');
-    const draw = () => {
-      itemsEl.innerHTML = block.items.map((it, i) => `
-        <div class="item-row">
-          <div class="item-row-grid3">
-            <input type="text" placeholder="Значение (800K)" data-i="${i}" data-k="value" value="${escapeAttr(it.value)}">
-            <input type="text" placeholder="Подпись" data-i="${i}" data-k="label" value="${escapeAttr(it.label)}">
-            <input type="text" placeholder="Рост (+688%), необязательно" data-i="${i}" data-k="growth" value="${escapeAttr(it.growth)}">
-          </div>
-          <div class="checkbox-row">
-            <label><input type="checkbox" data-i="${i}" data-k="wide" ${it.wide ? 'checked' : ''}> На всю ширину</label>
-            <button class="icon-btn" data-remove-item="${i}" style="margin-left:auto; color:var(--danger)">✕</button>
-          </div>
-        </div>`).join('');
-      itemsEl.querySelectorAll('input[data-k]').forEach(inp => {
-        inp.addEventListener('input', () => {
-          const i = +inp.dataset.i, k = inp.dataset.k;
-          block.items[i][k] = inp.type === 'checkbox' ? inp.checked : inp.value;
-        });
-      });
-      itemsEl.querySelectorAll('[data-remove-item]').forEach(b => b.addEventListener('click', () => {
-        block.items.splice(+b.dataset.removeItem, 1); draw();
-      }));
-    };
-    draw();
-    el.querySelector('[data-add-item]').addEventListener('click', () => {
-      block.items.push({ value: '', label: '', growth: '' }); draw();
-    });
-  }
-
-  if (block.type === 'doneList') {
-    el.innerHTML = `<div data-items></div><button class="btn secondary small" data-add-item>+ Пункт</button>`;
-    const itemsEl = el.querySelector('[data-items]');
-    const draw = () => {
-      itemsEl.innerHTML = block.items.map((it, i) => `
-        <div class="item-row">
-          <input type="text" placeholder="Заголовок пункта" data-i="${i}" data-k="title" value="${escapeAttr(it.title)}">
-          <input type="text" placeholder="Пояснение (необязательно)" data-i="${i}" data-k="sub" value="${escapeAttr(it.sub)}">
-          <button class="icon-btn" data-remove-item="${i}" style="align-self:flex-end; color:var(--danger)">✕ Удалить пункт</button>
-        </div>`).join('');
-      itemsEl.querySelectorAll('input[data-k]').forEach(inp => {
-        inp.addEventListener('input', () => { block.items[+inp.dataset.i][inp.dataset.k] = inp.value; });
-      });
-      itemsEl.querySelectorAll('[data-remove-item]').forEach(b => b.addEventListener('click', () => {
-        block.items.splice(+b.dataset.removeItem, 1); draw();
-      }));
-    };
-    draw();
-    el.querySelector('[data-add-item]').addEventListener('click', () => {
-      block.items.push({ title: '', sub: '' }); draw();
-    });
-  }
-
-  if (block.type === 'problemSolution') {
-    el.innerHTML = `
-      <div class="section-title" style="margin-top:0;">Проблема</div>
-      <div data-items="problem"></div>
-      <button class="btn secondary small" data-add-item="problem">+ Пункт проблемы</button>
-      <div class="section-title">Решение</div>
-      <div data-items="solution"></div>
-      <button class="btn secondary small" data-add-item="solution">+ Пункт решения</button>
-    `;
-    const drawCol = (col) => {
-      const itemsEl = el.querySelector(`[data-items="${col}"]`);
-      itemsEl.innerHTML = block[col].map((it, i) => `
-        <div class="item-row">
-          <input type="text" placeholder="Заголовок" data-col="${col}" data-i="${i}" data-k="title" value="${escapeAttr(it.title)}">
-          <input type="text" placeholder="Текст" data-col="${col}" data-i="${i}" data-k="text" value="${escapeAttr(it.text)}">
-          <button class="icon-btn" data-remove-item="${col}:${i}" style="align-self:flex-end; color:var(--danger)">✕ Удалить</button>
-        </div>`).join('');
-      itemsEl.querySelectorAll('input[data-k]').forEach(inp => {
-        inp.addEventListener('input', () => { block[inp.dataset.col][+inp.dataset.i][inp.dataset.k] = inp.value; });
-      });
-      itemsEl.querySelectorAll('[data-remove-item]').forEach(b => b.addEventListener('click', () => {
-        const [c, i] = b.dataset.removeItem.split(':');
-        block[c].splice(+i, 1); drawCol(c);
-      }));
-    };
-    drawCol('problem'); drawCol('solution');
-    el.querySelectorAll('[data-add-item]').forEach(b => b.addEventListener('click', () => {
-      block[b.dataset.addItem].push({ title: '', text: '' }); drawCol(b.dataset.addItem);
-    }));
-  }
-
-  if (block.type === 'sitePreview') {
-    el.innerHTML = `
-      <div class="field"><label>URL, показываемый в адресной строке макета</label><input type="text" data-field="url" value="${escapeAttr(block.url)}"></div>
-      <div class="field"><label>Alt-текст</label><input type="text" data-field="alt" value="${escapeAttr(block.alt)}"></div>
-      <div class="field"><label>Скриншот</label><input type="file" accept="image/*" data-upload="image"></div>
-      <div class="upload-status" data-upload-status></div>
-      ${block.image ? `<img class="img-preview" src="${escapeAttr(block.image)}">` : ''}
-    `;
-    el.querySelectorAll('[data-field]').forEach(inp => {
-      inp.addEventListener('input', () => { block[inp.dataset.field] = inp.value; });
-    });
-    bindImageUpload(el, block, 'image', index);
-  }
-}
-
-function bindImageUpload(el, block, field, index) {
-  const input = el.querySelector('[data-upload]');
-  if (!input) return;
-  input.addEventListener('change', async () => {
-    const file = input.files[0];
-    if (!file) return;
-    const statusEl = el.querySelector('[data-upload-status]');
-    statusEl.textContent = 'Загружаю фото…';
+document.getElementById('photoInput').addEventListener('change', async (e) => {
+  const files = Array.from(e.target.files || []);
+  if (!files.length) return;
+  const statusEl = document.getElementById('uploadStatus');
+  for (let i = 0; i < files.length; i++) {
+    statusEl.textContent = `Загружаю фото ${i + 1} из ${files.length}…`;
     try {
-      const url = await uploadImageToCloudinary(file);
-      block[field] = url;
-      statusEl.textContent = 'Загружено ✓';
-      renderBlockBody(el, block, index);
-    } catch (e) {
-      statusEl.textContent = 'Ошибка загрузки: ' + e.message;
+      const url = await uploadImageToCloudinary(files[i]);
+      currentImages.push(url);
+      renderGallery();
+    } catch (err) {
+      statusEl.textContent = 'Ошибка загрузки: ' + err.message;
+      return;
     }
-  });
-}
+  }
+  statusEl.textContent = 'Загружено ✓';
+  e.target.value = '';
+});
 
 function escapeAttr(str) {
   return (str || '').toString().replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+}
+function escapeText(str) {
+  return (str || '').toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 // ---------- SAVE / DELETE ----------
 document.getElementById('saveCaseBtn').addEventListener('click', async () => {
   const statusEl = document.getElementById('editorStatus');
+  const title = document.getElementById('fTitle').value.trim();
+  if (!title) {
+    statusEl.textContent = 'Заполни название кейса.';
+    return;
+  }
   const payload = {
-    order: Number(document.getElementById('fOrder').value) || 0,
-    sectionNumber: document.getElementById('fSectionNumber').value.trim(),
-    sectionType: document.getElementById('fSectionType').value.trim(),
-    categoryTag: document.getElementById('fCategoryTag').value.trim(),
-    title: document.getElementById('fTitle').value,
+    title,
     description: document.getElementById('fDescription').value.trim(),
-    blocks: currentBlocks,
+    link: document.getElementById('fLink').value.trim(),
+    images: currentImages,
     updatedAt: serverTimestamp()
   };
   statusEl.textContent = 'Сохраняю…';

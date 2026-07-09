@@ -418,7 +418,7 @@
   <div class="hero-grid"></div>
   <p class="hero-tag">AUVIX Studio · Портфолио</p>
   <h1 class="hero-title">Реальные<br><span class="accent">результаты</span></h1>
-  <p class="hero-sub">Три кейса — от TikTok-аккаунта с нуля до сайта с Telegram-ботом. Цифры настоящие, описание честное.</p>
+  <p class="hero-sub">Реальные проекты — фото, описание и результат каждой работы. Без прикрас.</p>
 </section>
 
 <!-- ===== КЕЙСЫ (подгружаются из Firestore) ===== -->
@@ -477,87 +477,31 @@
   }
   function nl2br(str) { return esc(str).replace(/\n/g, '<br>'); }
 
-  function renderImage(b) {
-    return `<img class="case-img reveal" src="${esc(b.url)}" alt="${esc(b.alt || '')}">`;
-  }
-
-  function renderStats(b) {
-    const items = (b.items || []).map(it => `
-      <div class="stat-block${it.wide ? ' wide' : ''}">
-        <div class="stat-num">${esc(it.value)}</div>
-        <div class="stat-label">${esc(it.label)}</div>
-        ${it.growth ? `<div class="stat-growth">${esc(it.growth)}</div>` : ''}
-      </div>`).join('');
-    return `<div class="stats-grid reveal">${items}</div>`;
-  }
-
-  function renderDoneList(b) {
-    const items = (b.items || []).map(it => `
-      <div class="done-item">
-        <span class="done-arrow">→</span>
-        <div>
-          <div class="done-text">${esc(it.title)}</div>
-          ${it.sub ? `<div class="done-sub">${esc(it.sub)}</div>` : ''}
-        </div>
-      </div>`).join('');
-    return `<div class="done-list reveal">${items}</div>`;
-  }
-
-  function renderProblemSolution(b) {
-    const col = (label, icon, items) => `
-      <div class="ps-block">
-        <div class="ps-label">${esc(label)}</div>
-        <div class="ps-list">
-          ${(items || []).map(it => `
-            <div class="ps-item">
-              <span class="ps-icon">${icon}</span>
-              <div class="ps-text"><strong>${esc(it.title)}</strong>${esc(it.text)}</div>
-            </div>`).join('')}
-        </div>
-      </div>`;
-    return `<div class="ps-grid reveal">${col('Проблема', '—', b.problem)}${col('Решение', '→', b.solution)}</div>`;
-  }
-
-  function renderSitePreview(b) {
-    return `
-      <div class="site-preview reveal">
-        <div class="site-preview-bar">
-          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-          <div class="url-bar">${esc(b.url || '')}</div>
-        </div>
-        <img src="${esc(b.image)}" alt="${esc(b.alt || '')}">
-      </div>`;
-  }
-
-  const BLOCK_RENDERERS = {
-    image: renderImage,
-    stats: renderStats,
-    doneList: renderDoneList,
-    problemSolution: renderProblemSolution,
-    sitePreview: renderSitePreview
-  };
-
   function renderCase(data) {
-    const blocksHtml = (data.blocks || [])
-      .map(b => (BLOCK_RENDERERS[b.type] ? BLOCK_RENDERERS[b.type](b) : ''))
+    const images = (data.images || [])
+      .map(url => `<img class="case-img reveal" src="${esc(url)}" alt="${esc(data.title || '')}">`)
       .join('\n');
+
+    const linkHtml = data.link ? `
+      <div class="reveal" style="margin-top: 24px;">
+        <a class="cta-btn" href="${esc(data.link)}" target="_blank" rel="noopener">Смотреть проект →</a>
+      </div>` : '';
 
     return `
     <section class="case-section" id="case-${esc(data._id)}">
-      <div class="section-label reveal">${esc(data.sectionNumber || '')} — ${esc(data.sectionType || '')}</div>
       <div class="reveal">
-        <div class="case-cat">${esc(data.categoryTag || '')}</div>
         <h2 class="case-title">${nl2br(data.title)}</h2>
         <p class="case-desc">${esc(data.description || '')}</p>
       </div>
-      ${blocksHtml}
+      ${images}
+      ${linkHtml}
     </section>`;
   }
 
   async function loadCases() {
     const container = document.getElementById('casesContainer');
     try {
-      const q = query(collection(db, 'cases'), orderBy('order', 'asc'));
+      const q = query(collection(db, 'cases'), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
 
       if (snap.empty) {
@@ -579,5 +523,6 @@
 
   loadCases();
 </script>
+
 </body>
 </html>
