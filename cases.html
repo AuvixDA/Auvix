@@ -209,12 +209,15 @@
 
   /* IMAGE */
   .case-img {
-    width: 100%;
     display: block;
-    margin-bottom: 2px;
-    /* No crop — full image shown */
+    width: auto;
+    max-width: min(480px, 100%);
+    height: auto;
+    max-height: 55vh;
+    margin: 0 auto 12px;
     object-fit: contain;
     background: var(--bg2);
+    border-radius: 4px;
   }
 
   /* WHAT WAS DONE */

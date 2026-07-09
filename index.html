@@ -173,7 +173,6 @@
     animation: gridFade 3s ease forwards;
   }
   @keyframes gridFade { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
   .hero-tag {
     font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -459,24 +458,6 @@
   /* SCROLL REVEAL */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* PROMO COUNTDOWN */
-  .promo-timer {
-    display: flex; gap: 12px; margin-top: 12px; margin-bottom: 16px;
-  }
-  .promo-timer-block {
-    display: flex; flex-direction: column; align-items: center;
-    background: var(--bg); padding: 8px 12px; min-width: 52px;
-    border: 1px solid var(--border);
-  }
-  .promo-timer-num {
-    font-family: 'Bebas Neue', sans-serif; font-size: 28px;
-    color: var(--accent); line-height: 1;
-  }
-  .promo-timer-label {
-    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gray); margin-top: 3px;
-  }
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -502,7 +483,7 @@
 <!-- MOBILE NAV OVERLAY -->
 <div class="mobile-nav" id="mobileNav">
   <a href="#about" onclick="closeMobileNav()">О себе</a>
-  <a href="#works" onclick="closeMobileNav()">Работы</a>
+  <a href="#works" onclick="closeMobileNav()">Кейсы</a>
   <a href="#services" onclick="closeMobileNav()">Услуги</a>
   <a href="prices.html" onclick="closeMobileNav()">Пакеты</a>
   <a href="#apply" onclick="closeMobileNav()">Заявка</a>
@@ -516,6 +497,7 @@
 <nav id="navbar">
   <a href="#" class="logo">AUVIX<span>.</span></a>
   <div class="nav-right">
+    <a href="cases.html" class="nav-tg-portfolio">Кейсы</a>
     <a href="https://t.me/auvixs" target="_blank" class="nav-tg-portfolio">TGK</a>
     <button class="burger" id="burgerBtn" onclick="toggleMobileNav()" aria-label="Меню">
       <span></span><span></span><span></span>
@@ -527,14 +509,14 @@
 <section id="hero">
   <div class="hero-grid"></div>
   <div style="position:relative; z-index:1;">
-    <div class="hero-tag">Контент · Дизайн · SMM · Сайты · Стратегия</div>
+    <div class="hero-tag">Контент · Дизайн · SMM · Сайты</div>
     <h1 class="hero-title">
       AUVIX<br>
       <span class="line2">DIGITAL</span><br>
       STUDIO
     </h1>
     <div class="hero-bottom">
-      <p class="hero-desc">Полный цикл digital-услуг — от стратегии до результата. Один партнёр вместо цепочки подрядчиков: контент, дизайн, SMM, сайты и AI-автоматизация.</p>
+      <p class="hero-desc">Ведём digital-проекты от постановки задачи до результата: контент, дизайн, SMM, сайты и автоматизация. Один партнёр вместо цепочки подрядчиков — меньше согласований, понятная ответственность.</p>
       <div class="hero-btns">
         <button class="hero-cta" onclick="scrollToApply()">
           Оставить заявку
@@ -551,40 +533,27 @@
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="section-label">О себе</div>
+  <div class="section-label">О студии</div>
   <div class="reveal">
     <div style="display:flex; align-items:flex-start; gap:20px; margin-bottom:24px;">
-      <img src="photo.jpg" alt="Иван — AUVIX" style="width:160px; height:160px; object-fit:cover; object-position:center 15%; flex-shrink:0; border-radius:50%; border:2px solid var(--accent);">
+      <img src="photo.jpg" alt="AUVIX Studio" style="width:160px; height:160px; object-fit:cover; object-position:center 15%; flex-shrink:0; border-radius:50%; border:2px solid var(--accent);">
       <div>
-        <p style="font-size:13px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;">Иван · Digital-специалист · AUVIX Studio</p>
-        <p style="font-size:15px; line-height:1.85; color:var(--white);">Закрываю весь digital лично — SMM, контент, дизайн, сайты, Telegram-боты и AI-автоматизация. Каждый проект веду от брифа до результата. Работаете напрямую с исполнителем, без менеджеров и испорченного телефона.</p>
+        <p style="font-size:13px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;">AUVIX Studio · Digital-подрядчик</p>
+        <p style="font-size:15px; line-height:1.85; color:var(--white);">Берём проект полностью на себя — SMM, контент, дизайн, сайты, Telegram-боты и автоматизация. Ведём от брифа до сдачи результата, без передачи между отделами и потери деталей по пути.</p>
       </div>
     </div>
   </div>
   <div class="stats reveal-group reveal">
-    <div class="stat"><div class="stat-num">1,5+</div><div class="stat-label">года в digital</div></div>
+    <div class="stat"><div class="stat-num">1,5+</div><div class="stat-label">года на рынке</div></div>
     <div class="stat"><div class="stat-num">20+</div><div class="stat-label">выполненных задач в 2026 году</div></div>
     <div class="stat"><div class="stat-num">5.0</div><div class="stat-label">рейтинг на Авито</div></div>
-    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Клиентов остаются довольны результатом</div></div>
   </div>
 
   <!-- PROMO -->
   <div class="reveal" style="margin-top:2px; background:var(--bg3); border-left:2px solid var(--accent); padding:20px 20px 20px 18px;">
-    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-      <div style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent);">Пробный проект</div>
-      <div style="display:flex; align-items:center; gap:6px;">
-        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#ff4d4d; animation:blink 1.4s ease-in-out infinite;"></span>
-        <span style="font-size:11px; color:#ff4d4d; letter-spacing:0.06em; font-weight:500;">Ограниченное предложение</span>
-      </div>
-    </div>
+    <div style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Пробный проект</div>
     <div style="font-size:15px; font-weight:500; color:var(--white); margin-bottom:8px;">Оцените качество до старта</div>
-    <div style="font-size:13px; color:var(--gray); line-height:1.7; margin-bottom:4px;">Сделаю 3 поста или карточку товара — получите готовый контент и поймёте, подходит ли мой стиль вашему бизнесу. Взамен прошу честный отзыв.</div>
-    <div class="promo-timer">
-      <div class="promo-timer-block"><div class="promo-timer-num" id="timer-d">00</div><div class="promo-timer-label">дней</div></div>
-      <div class="promo-timer-block"><div class="promo-timer-num" id="timer-h">00</div><div class="promo-timer-label">часов</div></div>
-      <div class="promo-timer-block"><div class="promo-timer-num" id="timer-m">00</div><div class="promo-timer-label">минут</div></div>
-      <div class="promo-timer-block"><div class="promo-timer-num" id="timer-s">00</div><div class="promo-timer-label">секунд</div></div>
-    </div>
+    <div style="font-size:13px; color:var(--gray); line-height:1.7; margin-bottom:16px;">Сделаем 3 поста или карточку товара — вы получите готовый контент и поймёте, подходит ли наш стиль вашему бизнесу. Взамен просим честный отзыв.</div>
     <button onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'}); setTimeout(()=>{document.getElementById('f_promo').checked=true;},400);" style="background:var(--accent); color:#0a0a0a; border:none; padding:12px 20px; font-family:'Geologica',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;">
       Попробовать →
     </button>
@@ -593,38 +562,12 @@
 
 <!-- WORKS -->
 <section id="works">
-  <div class="section-label">Работы</div>
-
-  <div class="reveal" style="display:flex; flex-direction:column; gap:2px; margin-bottom:2px;">
-    <div style="background:var(--bg2); padding:22px 20px; display:flex; align-items:center; gap:20px;">
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--accent); line-height:1; flex-shrink:0; min-width:80px;">800K</div>
-      <div>
-        <div style="font-size:14px; font-weight:500; color:var(--white); margin-bottom:3px;">просмотров за 60 дней</div>
-        <div style="font-size:12px; color:var(--gray);">TikTok с нуля · 0 ₽ рекламного бюджета · +2 500 подписчиков</div>
-      </div>
-    </div>
-    <div style="background:var(--bg2); padding:22px 20px; display:flex; align-items:center; gap:20px;">
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--accent); line-height:1; flex-shrink:0; min-width:80px;">+32%</div>
-      <div>
-        <div style="font-size:14px; font-weight:500; color:var(--white); margin-bottom:3px;">гостей в будние дни</div>
-        <div style="font-size:12px; color:var(--gray);">SMM под ключ для karaoke-бара · Instagram, Telegram, ВКонтакте</div>
-      </div>
-    </div>
-    <div style="background:var(--bg2); padding:22px 20px; display:flex; align-items:center; gap:20px;">
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--accent); line-height:1; flex-shrink:0; min-width:80px;">Auto</div>
-      <div>
-        <div style="font-size:14px; font-weight:500; color:var(--white); margin-bottom:3px;">приём заявок через Telegram-бот</div>
-        <div style="font-size:12px; color:var(--gray);">Сайт клана PUBG Mobile · дизайн, вёрстка и бот с нуля</div>
-      </div>
-    </div>
-  </div>
-
   <div class="reveal">
-    <a href="cases.html" style="display:flex; align-items:center; justify-content:space-between; background:var(--bg2); padding:20px 16px; text-decoration:none; border-left:2px solid var(--accent); transition:background 0.2s;" onmouseover="this.style.background='var(--bg3)';" onmouseout="this.style.background='var(--bg2)';">
+    <a href="cases.html" style="display:flex; align-items:center; justify-content:space-between; background:var(--bg2); padding:24px 20px; text-decoration:none; border-left:2px solid var(--accent); transition:background 0.2s;" onmouseover="this.style.background='var(--bg3)';" onmouseout="this.style.background='var(--bg2)';">
       <div>
         <div style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:6px;">Портфолио</div>
-        <div style="font-size:15px; font-weight:500; color:var(--white);">Все кейсы с цифрами и деталями →</div>
-        <div style="font-size:12px; color:var(--gray); margin-top:4px;">GeraDog · Опера · TempesT — что сделано и как</div>
+        <div style="font-size:16px; font-weight:500; color:var(--white);">Смотреть кейсы →</div>
+        <div style="font-size:12px; color:var(--gray); margin-top:4px;">Реализованные проекты с результатами</div>
       </div>
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0; margin-left:16px;"><path d="M4 10h12M12 5l5 5-5 5" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -690,14 +633,14 @@
 
 <!-- PROCESS -->
 <section id="process">
-  <div class="section-label">Как я работаю</div>
+  <div class="section-label">Как мы работаем</div>
   <div class="process-list reveal">
     <div class="process-step">
       <div class="process-num">01</div>
       <div>
         <div class="process-tag">Знакомство</div>
         <div class="process-title">Обсуждаем задачу</div>
-        <div class="process-desc">Вы рассказываете о бизнесе и целях. Отвечаю в течение 2–5 часов. Предлагаю решение и называю стоимость.</div>
+        <div class="process-desc">Вы рассказываете о бизнесе и целях. Отвечаем в течение 2–5 часов. Предлагаем решение и называем стоимость.</div>
       </div>
     </div>
     <div class="process-step">
@@ -712,16 +655,16 @@
       <div class="process-num">03</div>
       <div>
         <div class="process-tag">Стратегия</div>
-        <div class="process-title">Разрабатываю план</div>
-        <div class="process-desc">Анализирую нишу и конкурентов, формирую контент-план и расписание публикаций под вашу аудиторию.</div>
+        <div class="process-title">Разрабатываем план</div>
+        <div class="process-desc">Анализируем нишу и конкурентов, формируем контент-план и расписание публикаций под вашу аудиторию.</div>
       </div>
     </div>
     <div class="process-step">
       <div class="process-num">04</div>
       <div>
         <div class="process-tag">Производство</div>
-        <div class="process-title">Создаю и согласовываю</div>
-        <div class="process-desc">Делаю черновик → вы смотрите и даёте правки → финальная версия. Количество итераций согласовывается заранее и зависит от сложности задачи и ТЗ.</div>
+        <div class="process-title">Создаём и согласовываем</div>
+        <div class="process-desc">Делаем черновик → вы смотрите и даёте правки → финальная версия. Количество итераций согласовывается заранее и зависит от сложности задачи и ТЗ.</div>
       </div>
     </div>
     <div class="process-step">
@@ -809,23 +752,23 @@
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)"><span>Как проходит согласование?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Показываю черновик — вы смотрите, даёте правки, я дорабатываю. Количество итераций фиксируем на старте: оно зависит от сложности задачи, объёма работы и вашего ТЗ. Финальная версия уходит в работу только после вашего подтверждения.</div>
+      <div class="faq-a">Показываем черновик — вы смотрите, даёте правки, мы дорабатываем. Количество итераций фиксируем на старте: оно зависит от сложности задачи, объёма работы и вашего ТЗ. Финальная версия уходит в работу только после вашего подтверждения.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)"><span>Можно посмотреть примеры работ до старта?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Да, конечно. Портфолио в Telegram — t.me/auvixs — там собраны реальные проекты: SMM, дизайн, сайты. Также детальные кейсы есть на странице «Работы».</div>
+      <div class="faq-a">Да, конечно. Портфолио в Telegram — t.me/auvixs — там собраны реальные проекты: SMM, дизайн, сайты. Также детальные кейсы есть на странице «Кейсы».</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>Вы работаете один?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Да — и это осознанно. Вы всегда работаете напрямую с исполнителем, без менеджеров и испорченного телефона. Каждый проект получает полное внимание с первого дня.</div>
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Кто ведёт проект?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Проект от брифа до сдачи ведёт один и тот же специалист — вы всегда на связи с человеком, который непосредственно делает работу, без передачи между отделами и потери деталей по пути.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)"><span>Что нужно для старта?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Достаточно рассказать о бизнесе, показать аккаунт и пояснить что хотите. Остальное беру на себя — анализ, идеи, производство.</div>
+      <div class="faq-a">Достаточно рассказать о бизнесе, показать аккаунт и пояснить, что хотите получить. Остальное берём на себя — анализ, идеи, производство.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)"><span>Гарантируете результат?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Гарантирую качество контента и соблюдение сроков. Конкретные цифры зависят от ниши и бюджета — говорю честно, без обещаний "1000 подписчиков за неделю".</div>
+      <div class="faq-a">Гарантируем качество контента и соблюдение сроков. Конкретные цифры зависят от ниши и бюджета — говорим честно, без обещаний "1000 подписчиков за неделю".</div>
     </div>
   </div>
 </section>
@@ -836,7 +779,7 @@
 
   <div id="formContainer">
     <h2 class="apply-title">Оставить<br><span>заявку</span></h2>
-    <p class="apply-desc">Заполните форму — свяжусь с вами в течение дня и предложу решение.</p>
+    <p class="apply-desc">Заполните форму — свяжемся с вами в течение дня и предложим решение.</p>
 
     <!-- PACKAGE BANNER -->
     <div class="package-banner hidden" id="packageBanner">
@@ -931,7 +874,7 @@
       <div style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:4px;">Выбранный пакет</div>
       <div id="successPackageName" style="font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--white);"></div>
     </div>
-    <div class="success-text">Получил заявку — свяжусь с вами в течение дня, уточним детали и стартуем.<br><br>Или напишите прямо сейчас:</div>
+    <div class="success-text">Заявка получена — свяжемся с вами в течение дня, уточним детали и стартуем.<br><br>Или напишите прямо сейчас:</div>
     <a href="https://t.me/idwvw" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#0a0a0a; padding:14px 28px; font-size:13px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; margin-top:8px;">
       Написать в Telegram →
     </a>
@@ -1042,35 +985,6 @@
 
   // ─── BOT CONFIG ───────────────────────────────────────────────────────────
   const WORKER_URL = 'https://auvix.ivankatsan24954.workers.dev/';
-
-  // ─── PROMO COUNTDOWN (7-day cycle, repeating) ─────────────────────────────
-  (function initCountdown() {
-    const CYCLE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
-    // Use a fixed epoch anchor so timer is consistent across page loads
-    const ANCHOR = new Date('2026-01-01T00:00:00Z').getTime();
-
-    function updateTimer() {
-      const now = Date.now();
-      const elapsed = (now - ANCHOR) % CYCLE_MS;
-      let remaining = CYCLE_MS - elapsed;
-
-      const d = Math.floor(remaining / (1000 * 60 * 60 * 24));
-      remaining -= d * 1000 * 60 * 60 * 24;
-      const h = Math.floor(remaining / (1000 * 60 * 60));
-      remaining -= h * 1000 * 60 * 60;
-      const m = Math.floor(remaining / (1000 * 60));
-      remaining -= m * 1000 * 60;
-      const s = Math.floor(remaining / 1000);
-
-      document.getElementById('timer-d').textContent = String(d).padStart(2, '0');
-      document.getElementById('timer-h').textContent = String(h).padStart(2, '0');
-      document.getElementById('timer-m').textContent = String(m).padStart(2, '0');
-      document.getElementById('timer-s').textContent = String(s).padStart(2, '0');
-    }
-
-    updateTimer();
-    setInterval(updateTimer, 1000);
-  })();
 
   // ─── HELPERS ──────────────────────────────────────────────────────────────
   function scrollToApply() {
@@ -1504,7 +1418,7 @@
         chatHistory.push({ role: 'user', content: message });
         chatHistory.push({ role: 'assistant', content: data.reply });
       } else {
-        appendMessage('bot', 'Что-то пошло не так. Напишите Ивану напрямую: @idwvw');
+        appendMessage('bot', 'Что-то пошло не так. Напишите нам напрямую: @idwvw');
       }
     } catch (err) {
       typing.classList.remove('show');
