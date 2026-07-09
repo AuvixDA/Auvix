@@ -351,6 +351,24 @@
     margin: 0 20px;
   }
 
+  /* LOADING / EMPTY STATE */
+  .cases-status {
+    padding: 64px 20px;
+    text-align: center;
+    color: var(--gray);
+    font-size: 14px;
+    letter-spacing: 0.03em;
+  }
+  .cases-status .dot-pulse {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 8px;
+    animation: pulse 1s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
   /* REVEAL animation */
   .reveal {
     opacity: 0;
@@ -403,252 +421,10 @@
   <p class="hero-sub">Три кейса — от TikTok-аккаунта с нуля до сайта с Telegram-ботом. Цифры настоящие, описание честное.</p>
 </section>
 
-<!-- ===== CASE 1 — GeraDog ===== -->
-<section class="case-section" id="geradog">
-  <div class="section-label reveal">01 — TikTok</div>
-
-  <div class="reveal">
-    <div class="case-cat">TikTok · Pets · Органический рост</div>
-    <h2 class="case-title">GeraDog —<br>TikTok с нуля</h2>
-    <p class="case-desc">Аккаунт об амстаффе Гере — воспитание, уход и жизнь с собакой. Создал с нуля, вёл 2 месяца без рекламного бюджета. Ставка на образовательный и экспертный контент для владельцев.</p>
-  </div>
-
-  <!-- Обложка кейса -->
-  <img class="case-img reveal" src="1000000287.jpg" alt="GeraDog — 800K просмотров за 60 дней">
-
-  <!-- Статы -->
-  <div class="stats-grid reveal" style="margin-top:2px;">
-    <div class="stat-block">
-      <div class="stat-num">800K</div>
-      <div class="stat-label">просмотров</div>
-      <div class="stat-growth">+688%</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">31K</div>
-      <div class="stat-label">лайков</div>
-      <div class="stat-growth">+535%</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">5 700</div>
-      <div class="stat-label">репостов</div>
-      <div class="stat-growth">+1861%</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">2 500+</div>
-      <div class="stat-label">новых подписчиков</div>
-      <div class="stat-growth">органически</div>
-    </div>
-  </div>
-
-  <!-- Слайд с результатами -->
-  <img class="case-img reveal" src="1000000289.jpg" alt="Результаты за 60 дней — GeraDog">
-
-  <!-- Что было сделано -->
-  <div class="done-list reveal">
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Анализ ниши и конкурентов</div>
-        <div class="done-sub">Изучил популярные форматы в нише pets, нашёл темы с высоким потенциалом охвата</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Разработка контент-стратегии</div>
-        <div class="done-sub">Позиционирование — экспертный аккаунт для владельцев собак, упор на полезность</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Создание и монтаж видео</div>
-        <div class="done-sub">Сценарий, съёмка, монтаж, заголовки и описания — всё под ключ</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Публикация и аналитика</div>
-        <div class="done-sub">Контент регулярно попадал в рекомендации и активно распространялся через репосты</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Слайд «Что было сделано» -->
-  <img class="case-img reveal" style="margin-top:2px;" src="1000000288.jpg" alt="Что было сделано — GeraDog">
-</section>
-
-<!-- ===== CASE 2 — Опера ===== -->
-<section class="case-section" id="opera">
-  <div class="section-label reveal">02 — SMM</div>
-
-  <div class="reveal">
-    <div class="case-cat">Instagram · Telegram · ВКонтакте · Офлайн-интеграция</div>
-    <h2 class="case-title">Karaoke-бар<br>«Опера»</h2>
-    <p class="case-desc">Заведение теряло посетителей в будние дни — основной поток шёл только в выходные. Задача: выстроить системное привлечение через соцсети и перевести офлайн-аудиторию в онлайн.</p>
-  </div>
-
-  <!-- Проблема / Решение -->
-  <div class="ps-grid reveal">
-    <div class="ps-block">
-      <div class="ps-label">Проблема</div>
-      <div class="ps-list">
-        <div class="ps-item">
-          <span class="ps-icon">—</span>
-          <div class="ps-text"><strong>Низкая посещаемость в будни</strong>Зал заполнялся только в выходные и праздники</div>
-        </div>
-        <div class="ps-item">
-          <span class="ps-icon">—</span>
-          <div class="ps-text"><strong>Соцсети не работали как канал продаж</strong>Слабая активность, нет вовлечения и конверсии</div>
-        </div>
-        <div class="ps-item">
-          <span class="ps-icon">—</span>
-          <div class="ps-text"><strong>Нет возврата клиентов</strong>Отсутствие системы удержания и поводов вернуться</div>
-        </div>
-      </div>
-    </div>
-    <div class="ps-block">
-      <div class="ps-label">Решение</div>
-      <div class="ps-list">
-        <div class="ps-item">
-          <span class="ps-icon">→</span>
-          <div class="ps-text"><strong>Ведение и упаковка соцсетей</strong>Instagram, Telegram, ВКонтакте — единый стиль и голос бренда</div>
-        </div>
-        <div class="ps-item">
-          <span class="ps-icon">→</span>
-          <div class="ps-text"><strong>QR-коды в заведении</strong>Таблички в залах → переход в соцсети прямо с места</div>
-        </div>
-        <div class="ps-item">
-          <span class="ps-icon">→</span>
-          <div class="ps-text"><strong>Акции и поводы прийти в будни</strong>Скидки до 20%, живой вокал, тематические вечера</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Итоги -->
-  <div class="stats-grid reveal">
-    <div class="stat-block">
-      <div class="stat-num">+32%</div>
-      <div class="stat-label">рост потока гостей в будние дни</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">+210</div>
-      <div class="stat-label">новых подписчиков за период</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">+68%</div>
-      <div class="stat-label">рост охватов и вовлечённости</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">142</div>
-      <div class="stat-label">сканирования QR-кодов → переходы в соцсети</div>
-    </div>
-    <div class="stat-block wide">
-      <div class="stat-num">+27%</div>
-      <div class="stat-label">повторных посещений и бронирований</div>
-    </div>
-  </div>
-
-  <!-- Что было сделано -->
-  <div class="done-list reveal">
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Ведение и переоформление профилей</div>
-        <div class="done-sub">Instagram, Telegram, ВКонтакте — единый визуальный стиль, шапки, хайлайты</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Создание контента и офферов</div>
-        <div class="done-sub">Посты, сторис, акции и поводы прийти именно в будни</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Внедрение QR-кодов с табличками</div>
-        <div class="done-sub">Размещены в залах заведения — конвертируют офлайн-гостей в подписчиков</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Работа с аудиторией и удержание</div>
-        <div class="done-sub">Поводы возвращаться, лояльная база через Telegram-канал</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CASE 3 — TempesT Site ===== -->
-<section class="case-section" id="tempest">
-  <div class="section-label reveal">03 — Веб-разработка</div>
-
-  <div class="reveal">
-    <div class="case-cat">Сайт · Telegram-бот · UI/UX</div>
-    <h2 class="case-title">TempesT —<br>сайт клана</h2>
-    <p class="case-desc">Клан PUBG Mobile нуждался в странице для набора игроков: красивое оформление, удобная заявка и автоматическая обработка кандидатов. Написал код вручную — от дизайна до интеграции с Telegram.</p>
-  </div>
-
-  <!-- Превью сайта -->
-  <div class="site-preview reveal">
-    <div class="site-preview-bar">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="url-bar">auvixda.github.io/Pubg/</div>
-    </div>
-    <img src="1000000290.jpg" alt="Сайт TempesT — PUBG Mobile клан">
-  </div>
-
-  <!-- Что было сделано -->
-  <div class="done-list reveal">
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Разработка сайта с нуля по ТЗ</div>
-        <div class="done-sub">HTML, CSS, JS — весь код написан вручную. Единый стиль под эстетику PUBG Mobile</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Форма заявки на вступление в клан</div>
-        <div class="done-sub">Поля: никнейм, ID, город, о себе — всё необходимое для отбора кандидатов</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">Интеграция с Telegram-ботом</div>
-        <div class="done-sub">Заявки автоматически приходят в Telegram — удобный просмотр и отбор прямо в мессенджере</div>
-      </div>
-    </div>
-    <div class="done-item">
-      <span class="done-arrow">→</span>
-      <div>
-        <div class="done-text">UI-дизайн страницы 404</div>
-        <div class="done-sub">Уникальный интерфейс error-страницы в стиле бренда по отдельному ТЗ клиента</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Результаты -->
-  <div class="stats-grid reveal" style="margin-top:2px;">
-    <div class="stat-block">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">ручной код, без конструкторов</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num">Auto</div>
-      <div class="stat-label">заявки — прямо в Telegram клиента</div>
-    </div>
-  </div>
-</section>
+<!-- ===== КЕЙСЫ (подгружаются из Firestore) ===== -->
+<div id="casesContainer">
+  <div class="cases-status" id="casesStatus"><span class="dot-pulse"></span>Загружаю кейсы…</div>
+</div>
 
 <!-- CTA -->
 <section class="case-section" style="padding-top:40px; padding-bottom:56px;">
@@ -669,7 +445,7 @@
 <a class="back-to-top" id="backToTop" href="#hero">↑</a>
 
 <script>
-  // Scroll progress
+  // Scroll progress + navbar (не зависит от загрузки кейсов)
   const scrollLine = document.getElementById('scrollLine');
   const navbar = document.getElementById('navbar');
   const backToTop = document.getElementById('backToTop');
@@ -677,17 +453,131 @@
   window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
     const total = document.body.scrollHeight - window.innerHeight;
-    scrollLine.style.width = (scrolled / total * 100) + '%';
+    scrollLine.style.width = (scrolled / Math.max(total, 1) * 100) + '%';
     navbar.classList.toggle('scrolled', scrolled > 20);
     backToTop.classList.toggle('visible', scrolled > 400);
   });
 
-  // Reveal on scroll
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
+  function initReveal() {
+    const reveals = document.querySelectorAll('.reveal:not(.reveal-bound)');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => { el.classList.add('reveal-bound'); observer.observe(el); });
+  }
+  document.addEventListener('DOMContentLoaded', initReveal);
+</script>
+
+<script type="module">
+  import { db, collection, getDocs, query, orderBy } from './firebase-init.js';
+
+  function esc(str) {
+    return (str || '').toString()
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function nl2br(str) { return esc(str).replace(/\n/g, '<br>'); }
+
+  function renderImage(b) {
+    return `<img class="case-img reveal" src="${esc(b.url)}" alt="${esc(b.alt || '')}">`;
+  }
+
+  function renderStats(b) {
+    const items = (b.items || []).map(it => `
+      <div class="stat-block${it.wide ? ' wide' : ''}">
+        <div class="stat-num">${esc(it.value)}</div>
+        <div class="stat-label">${esc(it.label)}</div>
+        ${it.growth ? `<div class="stat-growth">${esc(it.growth)}</div>` : ''}
+      </div>`).join('');
+    return `<div class="stats-grid reveal">${items}</div>`;
+  }
+
+  function renderDoneList(b) {
+    const items = (b.items || []).map(it => `
+      <div class="done-item">
+        <span class="done-arrow">→</span>
+        <div>
+          <div class="done-text">${esc(it.title)}</div>
+          ${it.sub ? `<div class="done-sub">${esc(it.sub)}</div>` : ''}
+        </div>
+      </div>`).join('');
+    return `<div class="done-list reveal">${items}</div>`;
+  }
+
+  function renderProblemSolution(b) {
+    const col = (label, icon, items) => `
+      <div class="ps-block">
+        <div class="ps-label">${esc(label)}</div>
+        <div class="ps-list">
+          ${(items || []).map(it => `
+            <div class="ps-item">
+              <span class="ps-icon">${icon}</span>
+              <div class="ps-text"><strong>${esc(it.title)}</strong>${esc(it.text)}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    return `<div class="ps-grid reveal">${col('Проблема', '—', b.problem)}${col('Решение', '→', b.solution)}</div>`;
+  }
+
+  function renderSitePreview(b) {
+    return `
+      <div class="site-preview reveal">
+        <div class="site-preview-bar">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          <div class="url-bar">${esc(b.url || '')}</div>
+        </div>
+        <img src="${esc(b.image)}" alt="${esc(b.alt || '')}">
+      </div>`;
+  }
+
+  const BLOCK_RENDERERS = {
+    image: renderImage,
+    stats: renderStats,
+    doneList: renderDoneList,
+    problemSolution: renderProblemSolution,
+    sitePreview: renderSitePreview
+  };
+
+  function renderCase(data) {
+    const blocksHtml = (data.blocks || [])
+      .map(b => (BLOCK_RENDERERS[b.type] ? BLOCK_RENDERERS[b.type](b) : ''))
+      .join('\n');
+
+    return `
+    <section class="case-section" id="case-${esc(data._id)}">
+      <div class="section-label reveal">${esc(data.sectionNumber || '')} — ${esc(data.sectionType || '')}</div>
+      <div class="reveal">
+        <div class="case-cat">${esc(data.categoryTag || '')}</div>
+        <h2 class="case-title">${nl2br(data.title)}</h2>
+        <p class="case-desc">${esc(data.description || '')}</p>
+      </div>
+      ${blocksHtml}
+    </section>`;
+  }
+
+  async function loadCases() {
+    const container = document.getElementById('casesContainer');
+    try {
+      const q = query(collection(db, 'cases'), orderBy('order', 'asc'));
+      const snap = await getDocs(q);
+
+      if (snap.empty) {
+        container.innerHTML = `<div class="cases-status">Кейсы пока не добавлены.</div>`;
+        return;
+      }
+
+      let html = '';
+      snap.forEach(docSnap => {
+        html += renderCase({ ...docSnap.data(), _id: docSnap.id });
+      });
+      container.innerHTML = html;
+      initReveal();
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = `<div class="cases-status">Не удалось загрузить кейсы. Попробуйте обновить страницу.</div>`;
+    }
+  }
+
+  loadCases();
 </script>
 </body>
 </html>
